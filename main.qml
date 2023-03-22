@@ -76,11 +76,19 @@ ApplicationWindow {
                             checked: true
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: qsTr("PLAYER VS PLAYER")
+                            onClicked: {
+                                if(checked && back.gameType) back.gameTypeWrite(back.gameType);
+                                console.log("gameType = ",back.gameType);
+                            }
                         }
 
                         RadioButton {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: qsTr("PLAYER VS COMPUTER")
+                            onClicked: {
+                                if(checked && !back.gameType) back.gameTypeWrite(back.gameType);
+                                console.log("gameType = ",back.gameType);
+                            }
                         }
                     }
                 }
@@ -138,6 +146,9 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
+                                        var intValue = parseInt(currentText)
+                                        back.boardSizeYWrite(intValue)
+                                        console.log("boardSizeY = ",back.boardSizeY)
 
                                     }
                                 }
@@ -165,7 +176,9 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-
+                                        var intValue = parseInt(currentText)
+                                        back.boardSizeXWrite(intValue)
+                                        console.log("boardSizeX = ",back.boardSizeX)
                                     }
                                 }
                             }
@@ -226,7 +239,9 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-
+                                        var intValue = parseInt(currentText)
+                                        back.ships2noWrite(intValue)
+                                        console.log("ships 2 number = ",back.ships2no)
                                     }
                                 }
 
@@ -249,7 +264,9 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-
+                                        var intValue = parseInt(currentText)
+                                        back.ships3noWrite(intValue)
+                                        console.log("ships 3 number = ",back.ships3no)
                                     }
                                 }
 
@@ -272,7 +289,9 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-
+                                        var intValue = parseInt(currentText)
+                                        back.ships4noWrite(intValue)
+                                        console.log("ships 4 number = ",back.ships4no)
                                     }
                                 }
                             }
@@ -299,7 +318,9 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-
+                                        var intValue = parseInt(currentText)
+                                        back.ships5noWrite(intValue)
+                                        console.log("ships 5 number = ",back.ships5no)
                                     }
                                 }
 
@@ -322,7 +343,9 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-
+                                        var intValue = parseInt(currentText)
+                                        back.ships6noWrite(intValue)
+                                        console.log("ships 6 number = ",back.ships6no)
                                     }
                                 }
                             }
@@ -337,6 +360,11 @@ ApplicationWindow {
                 background: Rectangle {
                     color: gameStartButton.pressed ? "yellow" : settingsMenuColor
                     border { color: settingsMenuBorderColor; width: settingsMenu.width/60 }
+                }
+                onClicked: {
+                    //back.gameOn = true;
+                    back.gameOnWrite(back.gameOn);
+                    console.log("gameOn = ",back.gameOn);
                 }
 
                 Text {
