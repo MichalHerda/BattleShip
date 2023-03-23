@@ -22,13 +22,98 @@ ApplicationWindow {
     }
 
     Rectangle {
-        id: battleArea
-        width: mainW.width
-        height: mainW.height/1.25
-        anchors.top: parent.top
-        color: "dodgerblue"
-        border { color: "seagreen"; width: battleArea.width/50 }
+            id: battleAreaFrame
+            width: mainW.width
+            height: mainW.height/1.25
+            anchors.top: parent.top
+            color: "saddlebrown"
+
+        Rectangle {
+            id: battleArea
+            width: battleAreaFrame.width/1.05
+            height: battleAreaFrame.height/1.1
+            anchors.centerIn: parent
+            color: "dodgerblue"
+            border { color: "seagreen"; width: battleArea.width/50 }
+
+            Grid {
+                id: battleAreaGrid
+                columns: back.boardSizeX
+                anchors.fill: parent
+                spacing: 0
+
+                Repeater {
+                    id: battleAreaColumnRep
+                    model: back.boardSizeY * back.boardSizeX
+                    delegate: Rectangle {
+                        id: battleAreaRectangle
+                        width: battleAreaGrid.width/back.boardSizeX
+                        height: battleAreaGrid.height/back.boardSizeY
+                        opacity: 0.5
+                        border {color: "darkblue" ; width: battleArea.width/400 }
+                    }
+                }
+            }
+
+            /*
+            Repeater {
+                id: battleAreaRep
+                model: back.boardSizeX
+                delegate: Column {
+                    id: battleAreaColumn
+                    x: index * ( battleArea.width/back.boardSizeX)
+                    y: 0
+                    width: battleArea.width/back.boardSizeX
+                    height: battleArea.height
+                    spacing: 0
+
+                    Repeater {
+                        id: battleAreaColumnRep
+                        model: back.boardSizeY
+                        delegate: Rectangle {
+                            id: battleAreaRectangle
+                            width: battleAreaColumn.width
+                            height: battleAreaColumn.height/back.boardSizeY
+                            opacity: 0.5
+                            border {color: "darkblue" ; width: battleAreaRectangle.width/20 }
+                        }
+                    }
+                }
+            }
+            */
+        }
     }
+
+    Rectangle {
+        id: placementPhaseMenu
+        width: mainW.width
+        height: mainW.height - battleAreaFrame.height
+        anchors.bottom: parent.bottom
+        color: "darkturquoise"
+        visible: false
+
+        Row {
+            id: placementPhaseMenuRow
+            width: placementPhaseMenu.width
+            height: placementPhaseMenu.height
+
+            Rectangle {
+                id: placementPhaseMenuPlayerIndicate
+                width: placementPhaseMenu.width/7
+                height: placementPhaseMenu.height
+                border { color: "darkblue"; width: mainW.width/350 }
+                opacity: 0.5
+
+                Column {
+                    anchors.centerIn: parent
+                    Label { text: "PLAYER "}
+                    Label { text: "PLACE "}
+                    Label { text: "YOUR SHIPS" }
+                }
+            }
+        }
+    }
+
 
         Rectangle {
             id: settingsMenu
@@ -141,13 +226,14 @@ ApplicationWindow {
                                         id: comboModelNorthSouth
                                         }
                                     Component.onCompleted: {
-                                        for(let i = 10; i <= 20; i++) {
+                                        for(let i = 10; i <= 30; i++) {
                                               comboModelNorthSouth.append({text: i.toString()})
                                         }
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText)
                                         back.boardSizeYWrite(intValue)
+                                        back.boardSizeYChanged(intValue)
                                         console.log("boardSizeY = ",back.boardSizeY)
 
                                     }
@@ -171,13 +257,14 @@ ApplicationWindow {
                                         id: comboModelWestEast
                                         }
                                     Component.onCompleted: {
-                                        for(let i = 10; i <= 20; i++) {
+                                        for(let i = 10; i <= 30; i++) {
                                               comboModelWestEast.append({text: i.toString()})
                                         }
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText)
                                         back.boardSizeXWrite(intValue)
+                                        back.boardSizeXChanged(intValue)
                                         console.log("boardSizeX = ",back.boardSizeX)
                                     }
                                 }
@@ -365,6 +452,8 @@ ApplicationWindow {
                     //back.gameOn = true;
                     back.gameOnWrite(back.gameOn);
                     console.log("gameOn = ",back.gameOn);
+                    settingsMenu.visible = false;
+                    placementPhaseMenu.visible = true;
                 }
 
                 Text {
