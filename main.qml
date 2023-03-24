@@ -14,6 +14,12 @@ ApplicationWindow {
     property color settingsMenuColor: "darksalmon"
     property color settingsMenuBorderColor: "brown"
 
+    property string ship2str: back.ships2no.toString()
+    property string ship3str: back.ships3no.toString()
+    property string ship4str: back.ships4no.toString()
+    property string ship5str: back.ships5no.toString()
+    property string ship6str: back.ships6no.toString()
+
     BackEnd {
         id: back
         onGameOnChanged: (gameOn) => {
@@ -43,7 +49,7 @@ ApplicationWindow {
                 spacing: 0
 
                 Repeater {
-                    id: battleAreaColumnRep
+                    id: battleAreaRep
                     model: back.boardSizeY * back.boardSizeX
                     delegate: Rectangle {
                         id: battleAreaRectangle
@@ -54,33 +60,6 @@ ApplicationWindow {
                     }
                 }
             }
-
-            /*
-            Repeater {
-                id: battleAreaRep
-                model: back.boardSizeX
-                delegate: Column {
-                    id: battleAreaColumn
-                    x: index * ( battleArea.width/back.boardSizeX)
-                    y: 0
-                    width: battleArea.width/back.boardSizeX
-                    height: battleArea.height
-                    spacing: 0
-
-                    Repeater {
-                        id: battleAreaColumnRep
-                        model: back.boardSizeY
-                        delegate: Rectangle {
-                            id: battleAreaRectangle
-                            width: battleAreaColumn.width
-                            height: battleAreaColumn.height/back.boardSizeY
-                            opacity: 0.5
-                            border {color: "darkblue" ; width: battleAreaRectangle.width/20 }
-                        }
-                    }
-                }
-            }
-            */
         }
     }
 
@@ -113,7 +92,6 @@ ApplicationWindow {
             }
         }
     }
-
 
         Rectangle {
             id: settingsMenu
@@ -219,25 +197,25 @@ ApplicationWindow {
                                 }
 
                                 ComboBox {
-                                    id: seaDimNorthSouth
+                                    id: seaDimNorthSouth                                   
                                     width: seaDimensionRec.width/3
-                                    height: seaDimensionRec.height/5
+                                    height: seaDimensionRec.height/5                            
                                     model: ListModel {
                                         id: comboModelNorthSouth
                                         }
                                     Component.onCompleted: {
+                                        currentIndex = back.boardSizeY - 10
                                         for(let i = 10; i <= 30; i++) {
                                               comboModelNorthSouth.append({text: i.toString()})
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText)
+                                        let intValue = parseInt(currentText)
                                         back.boardSizeYWrite(intValue)
                                         back.boardSizeYChanged(intValue)
                                         console.log("boardSizeY = ",back.boardSizeY)
-
                                     }
-                                }
+                                }                               
                             }
 
                             Column {
@@ -257,17 +235,18 @@ ApplicationWindow {
                                         id: comboModelWestEast
                                         }
                                     Component.onCompleted: {
+                                        currentIndex = back.boardSizeX - 10
                                         for(let i = 10; i <= 30; i++) {
                                               comboModelWestEast.append({text: i.toString()})
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText)
+                                        let intValue = parseInt(currentText)
                                         back.boardSizeXWrite(intValue)
                                         back.boardSizeXChanged(intValue)
                                         console.log("boardSizeX = ",back.boardSizeX)
                                     }
-                                }
+                                }                             
                             }
                         }
                     }                   
@@ -317,6 +296,7 @@ ApplicationWindow {
                                     id: ships2No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
+                                    currentIndex: back.ships2no
                                     model: ListModel {
                                         id: comboModelShips2No
                                         }
@@ -342,6 +322,7 @@ ApplicationWindow {
                                     id: ships3No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
+                                    currentIndex: back.ships3no
                                     model: ListModel {
                                         id: comboModelShips3No
                                         }
@@ -367,6 +348,7 @@ ApplicationWindow {
                                     id: ships4No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
+                                    currentIndex: back.ships4no
                                     model: ListModel {
                                         id: comboModelShips4No
                                         }
@@ -396,6 +378,7 @@ ApplicationWindow {
                                     id: ships5No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
+                                    currentIndex: back.ships5no
                                     model: ListModel {
                                         id: comboModelShips5No
                                         }
@@ -421,6 +404,7 @@ ApplicationWindow {
                                     id: ships6No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
+                                    currentIndex: back.ships6no
                                     model: ListModel {
                                         id: comboModelShips6No
                                         }
