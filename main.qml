@@ -14,19 +14,13 @@ ApplicationWindow {
     property color settingsMenuColor: "darksalmon"
     property color settingsMenuBorderColor: "brown"
 
-    property string ship2str: back.ships2no.toString()
-    property string ship3str: back.ships3no.toString()
-    property string ship4str: back.ships4no.toString()
-    property string ship5str: back.ships5no.toString()
-    property string ship6str: back.ships6no.toString()
-
     BackEnd {
         id: back
         onGameOnChanged: (gameOn) => {
 
         }
     }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
     Rectangle {
             id: battleAreaFrame
             width: mainW.width
@@ -62,13 +56,13 @@ ApplicationWindow {
             }
         }
     }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
     Rectangle {
         id: placementPhaseMenu
         width: mainW.width
         height: mainW.height - battleAreaFrame.height
         anchors.bottom: parent.bottom
-        color: "darkturquoise"
+
         visible: false
 
         Row {
@@ -76,12 +70,14 @@ ApplicationWindow {
             width: placementPhaseMenu.width
             height: placementPhaseMenu.height
 
+
             Rectangle {
                 id: placementPhaseMenuPlayerIndicate
                 width: placementPhaseMenu.width/7
                 height: placementPhaseMenu.height
+                color: "darkturquoise"
                 border { color: "darkblue"; width: mainW.width/350 }
-                opacity: 0.5
+                //opacity: 0.5
 
                 Column {
                     anchors.centerIn: parent
@@ -90,9 +86,113 @@ ApplicationWindow {
                     Label { text: "YOUR SHIPS" }
                 }
             }
+
+            Repeater {
+                id: placementPhaseMenuRep
+                width: placementPhaseMenu.width/1.1
+                height: placementPhaseMenu.height
+                model: ListModel {
+                    property bool completed: false
+                    Component.onCompleted: {
+                        append({name: "2 DESTROYER",  number: back.ships2no})
+                        append({name: "3 CRUISER",    number: back.ships3no})
+                        append({name: "4 BATTLESHIP", number: back.ships4no})
+                        append({name: "5 CARRIER",    number: back.ships5no})
+                        append({name: "6 CLIPPER",    number: back.ships6no})
+                        completed = true
+                    }
+                }
+                delegate: Rectangle {
+                    id: placementPhaseMenuRectangle
+                    width: placementPhaseMenuRep.width/6
+                    height: placementPhaseMenuRep.height
+                    color: "darkturquoise"
+                    border { color: "darkblue"; width: mainW.width/350 }
+                    clip: true
+
+                    Column {
+                        spacing: placementPhaseMenuRectangle.height/20
+                        anchors.centerIn: parent
+
+                        Label  {
+                            text: name;               }
+                        Label  {
+                            text: number.toString();  }
+                        Button {
+                            id: button1
+                            width: placementPhaseMenuRectangle.width/1.75
+                            height: placementPhaseMenuRectangle.height/7
+                            text: "SHOW"
+                            background: Rectangle {
+                                color: button1.pressed ? "orange" : "yellow"
+                                border {color: button1.pressed ? "red" : "cadetblue"; width: button1.width/20}
+                            }
+                        }
+                        Button {
+                            id: button2
+                            width: placementPhaseMenuRectangle.width/1.75
+                            height: placementPhaseMenuRectangle.height/7
+                            text: "MODIFY"
+                            background: Rectangle {
+                                color: button2.pressed ? "orange" : "yellow"
+                                border {color: button2.pressed ? "red" : "cadetblue"; width: button2.width/20}
+                            }
+                        }
+                        Button {
+                            id: button3
+                            width: placementPhaseMenuRectangle.width/1.75
+                            height: placementPhaseMenuRectangle.height/7
+                            text: "PLACE"
+                            background: Rectangle {
+                                color: button3.pressed ? "orange" : "yellow"
+                                border {color: button3.pressed ? "red" : "cadetblue"; width: button3.width/20}                           
+                            }
+                        }
+                    }
+                }
+            }
+            Button {
+                id: goBackButton
+                width: placementPhaseMenu.width/20
+                height: placementPhaseMenuRep.height
+                //text: "BACK"
+                onClicked: { settingsMenu.visible = true; placementPhaseMenu.visible = false }
+                background: Rectangle {
+                    color: goBackButton.pressed ? "orange" : "darkturquoise"
+                    border {color: goBackButton.pressed ? "red" : "darkblue"; width: goBackButton.width/20}
+                }
+                Column {
+                    anchors.centerIn: parent
+                        Label { text: "B"}
+                        Label { text: "A"}
+                        Label { text: "C"}
+                        Label { text: "K"}
+                }
+            }
+
+            Button {
+                id: startGameButton
+                width:  placementPhaseMenu.width/20
+                height: placementPhaseMenuRep.height
+                //text: "START"
+                background: Rectangle {
+                    color: startGameButton.pressed ? "orange" : "darkturquoise"
+                    border {color: startGameButton.pressed ? "red" : "darkblue"; width: startGameButton.width/20}
+                }
+                onClicked:  inProgress.visible = true
+                Column {
+                    anchors.centerIn: parent
+                        Label { text: "S"}
+                        Label { text: "T"}
+                        Label { text: "A"}
+                        Label { text: "R"}
+                        Label { text: "T"}
+                }
+            }
+
         }
     }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
         Rectangle {
             id: settingsMenu
             width: mainW.width/2
@@ -128,6 +228,7 @@ ApplicationWindow {
                         height: settingsMenu.height/4
                         anchors.fill: parent
                         spacing: playerModeRec.height/15
+                        clip: true
 
                         Item {
                             id: invisibleItemA
@@ -162,6 +263,7 @@ ApplicationWindow {
                     height: settingsMenu.height/6
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: settingsMenuColor
+                    clip: true
                     border { color: settingsMenuBorderColor; width: settingsMenu.width/60 }
 
                     Column {
@@ -258,6 +360,7 @@ ApplicationWindow {
                     height: settingsMenu.height/2.75
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: settingsMenuColor
+                    clip: true
                     border { color: settingsMenuBorderColor; width: settingsMenu.width/60 }
 
                     Column {
@@ -289,7 +392,7 @@ ApplicationWindow {
                                 Label {
                                     font.pointSize: 6
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: " 2 DESTROYER's :"
+                                    text: " 2 DESTROYER :"
                                 }
 
                                 ComboBox {
@@ -309,13 +412,15 @@ ApplicationWindow {
                                         var intValue = parseInt(currentText)
                                         back.ships2noWrite(intValue)
                                         console.log("ships 2 number = ",back.ships2no)
+                                        console.log("searching item: ", placementPhaseMenuRep.itemAt(0).children[0].children[1])// = back.ships2no.toString()
+                                        placementPhaseMenuRep.itemAt(0).children[0].children[1].text = back.ships2no
                                     }
                                 }
 
                                 Label {
                                     font.pointSize: 6
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: " 3 CRUISER's :"
+                                    text: " 3 CRUISER :"
                                 }
 
                                 ComboBox {
@@ -335,13 +440,14 @@ ApplicationWindow {
                                         var intValue = parseInt(currentText)
                                         back.ships3noWrite(intValue)
                                         console.log("ships 3 number = ",back.ships3no)
+                                        placementPhaseMenuRep.itemAt(1).children[0].children[1].text = back.ships3no
                                     }
                                 }
 
                                 Label {
                                     font.pointSize: 6
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: " 4 BATTLESHIP's :"
+                                    text: " 4 BATTLESHIP :"
                                 }
 
                                 ComboBox {
@@ -361,6 +467,7 @@ ApplicationWindow {
                                         var intValue = parseInt(currentText)
                                         back.ships4noWrite(intValue)
                                         console.log("ships 4 number = ",back.ships4no)
+                                        placementPhaseMenuRep.itemAt(2).children[0].children[1].text = back.ships4no
                                     }
                                 }
                             }
@@ -371,7 +478,7 @@ ApplicationWindow {
                                 Label {
                                     font.pointSize: 6
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: " 5 CARRIER's :"
+                                    text: " 5 CARRIER :"
                                 }
 
                                 ComboBox {
@@ -391,13 +498,14 @@ ApplicationWindow {
                                         var intValue = parseInt(currentText)
                                         back.ships5noWrite(intValue)
                                         console.log("ships 5 number = ",back.ships5no)
+                                        placementPhaseMenuRep.itemAt(3).children[0].children[1].text = back.ships5no
                                     }
                                 }
 
                                 Label {
                                     font.pointSize: 6
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: " 6 CARRIER AIRCRAFT's :"
+                                    text: " 6 CLIPPER :"
                                 }
 
                                 ComboBox {
@@ -417,6 +525,7 @@ ApplicationWindow {
                                         var intValue = parseInt(currentText)
                                         back.ships6noWrite(intValue)
                                         console.log("ships 6 number = ",back.ships6no)
+                                        placementPhaseMenuRep.itemAt(4).children[0].children[1].text = back.ships6no
                                     }
                                 }
                             }
@@ -428,16 +537,16 @@ ApplicationWindow {
                 width: settingsMenu.width/2
                 height: settingsMenu.height/10
                 anchors.horizontalCenter: parent.horizontalCenter
+                clip: true
                 background: Rectangle {
                     color: gameStartButton.pressed ? "yellow" : settingsMenuColor
                     border { color: settingsMenuBorderColor; width: settingsMenu.width/60 }
                 }
                 onClicked: {
-                    //back.gameOn = true;
                     back.gameOnWrite(back.gameOn);
                     console.log("gameOn = ",back.gameOn);
                     settingsMenu.visible = false;
-                    placementPhaseMenu.visible = true;
+                    placementPhaseMenu.visible = true;                   
                 }
 
                 Text {
@@ -449,4 +558,51 @@ ApplicationWindow {
             }
         }
     }
+
+    Rectangle {
+        id: inProgress
+        width: mainW.width/2
+        height: mainW.width/5
+        anchors.centerIn: parent
+        color: "red"
+        visible: false
+        border { color: settingsMenuBorderColor; width: settingsMenu.width/60 }
+        Column {
+            anchors.centerIn: parent
+            spacing: inProgress.height/15
+            Label { text: "EXCUSE ME, IMPLEMENTATION IN PROGRESS" }
+            Button {
+                id: inProgressButton
+                width: inProgress.width/1.5
+                height: inProgress.height/3
+                background: Rectangle {
+                    color: inProgressButton.pressed ? "yellow" : settingsMenuColor
+                    border { color: settingsMenuBorderColor; width: settingsMenu.width/60 }
+                }
+                text: "OKAY"
+                onClicked: {inProgress.visible = false}
+            }
+        }
+    }
+
+    //Component.onCompleted: {
+    //    back.ships2noChanged(back.ships2no);
+    //   back.ships2noWrite(back.ships2no);
+    //}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+    /*   Timer {
+            id: testTimer
+            interval: 500
+            repeat: true
+            running: true
+            onTriggered: {
+                console.log("ship2: ", back.ships2No)
+                console.log("ship3: ", back.ships3No)
+                console.log("ship4: ", back.ships4No)
+                console.log("ship5: ", back.ships5No)
+                console.log("ship6: ", back.ships6No)
+            }
+        }
+    */
 }
