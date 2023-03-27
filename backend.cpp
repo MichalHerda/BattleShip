@@ -87,6 +87,27 @@ void BackEnd::ships2noWrite(int ships2no) {
     emit ships2no;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+double calculateBoardXDim (double battleAreaWidth) {
+    BackEnd backend;
+    return battleAreaWidth/backend.boardSizeX;
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+double calculateBoardYDim (double battleAreaHeight) {
+    BackEnd backend;
+    return battleAreaHeight/backend.boardSizeY;
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+void resetBattleArea (QMap <QPointF, BackEnd::FieldStatus>& player, double battleAreaHeight, double battleAreaWidth ) {
+    BackEnd backend;
+    double xDim = calculateBoardXDim (battleAreaWidth) ;
+    double yDim = calculateBoardYDim (battleAreaHeight) ;
+    for (int i = 0; i < battleAreaHeight; i + backend.boardSizeY ) {
+        for (int j = 0; j < battleAreaWidth; i + backend.boardSizeX ) {
+           //player.insert(QPointF(j, i), BackEnd::FieldStatus{0,0}  );
+        }
+    }
+
+
+
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------

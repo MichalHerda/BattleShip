@@ -1,3 +1,4 @@
+
 #ifndef BACKEND_H
 #define BACKEND_H
 
@@ -34,13 +35,18 @@ public:
     bool gameType = false;                          // gameType: false - player vs player                       true - player vs computer
     bool indicateTurn = false;                      // indicateTurn: false - player 1                           true - player 2
 
-    int boardSizeX = 12;                            // gameBoard size dimension X
-    int boardSizeY = 8;                             // gameBoard size dimension Y
+    int boardSizeX = 12;                             // gameBoard size dimension X
+    int boardSizeY = 12;                             // gameBoard size dimension Y
     int ships6no = 1;
     int ships5no = 2;
     int ships4no = 3;
     int ships3no = 4;
     int ships2no = 5;
+
+    double calculateBoardXDim (double battleAreaWidth);
+    double calculateBoardYDim (double battleAreaHeight);
+
+    void resetBattleArea (QMap <QPointF, FieldStatus>& player, double battleAreaHeight, double battleAreaWidth  );
 
     void setShipsNo (int& ships6no, int& ships5no, int& ships4no, int& ships3no, int& ships2no);
     bool gameOnRead()const;
