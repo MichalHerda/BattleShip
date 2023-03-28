@@ -316,6 +316,7 @@ ApplicationWindow {
                                         back.boardSizeYWrite(intValue)
                                         back.boardSizeYChanged(intValue)
                                         console.log("boardSizeY = ",back.boardSizeY)
+                                        //back.resetBattleArea(back.playerOne,battleArea.height, battleArea.width)
                                     }
                                 }                               
                             }

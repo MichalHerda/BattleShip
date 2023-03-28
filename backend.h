@@ -19,11 +19,17 @@ class BackEnd : public QObject
     Q_PROPERTY (int ships5no    READ ships5noRead   WRITE ships5noWrite   NOTIFY ships5noChanged   )
     Q_PROPERTY (int ships4no    READ ships4noRead   WRITE ships4noWrite   NOTIFY ships4noChanged   )
     Q_PROPERTY (int ships3no    READ ships3noRead   WRITE ships3noWrite   NOTIFY ships3noChanged   )
-    Q_PROPERTY (int ships2no    READ ships2noRead   WRITE ships2noWrite   NOTIFY ships2noChanged   )
+    Q_PROPERTY (int ships2no    READ ships2noRead   WRITE ships2noWrite   NOTIFY ships2noChanged   )   
+
+    Q_PROPERTY (QList<boardField>playerOne READ playerOneRead WRITE playerOneWrite NOTIFY playerOneChanged)
+    Q_PROPERTY (QList<boardField>playerTwo READ playerTwoRead WRITE playerTwoWrite NOTIFY playerTwoChanged)
+
 
     QML_ELEMENT
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 public:
+    //Q_INVOKABLE  void resetBattleArea (QList <boardField>& player, qreal battleAreaHeight, qreal battleAreaWidth);
+    /*
     struct FieldStatus {
         int itemAtField = 0;
         int shooted = 0;
@@ -31,9 +37,20 @@ public:
 
     QMap <QPointF, FieldStatus> playerOne;
     QMap <QPointF, FieldStatus> playerTwo;
-    bool gameOn = false;                            // gameOn  : false - gameOver/gamePreferences setting       true - game in proccess
-    bool gameType = false;                          // gameType: false - player vs player                       true - player vs computer
-    bool indicateTurn = false;                      // indicateTurn: false - player 1                           true - player 2
+    */
+
+    struct boardField {
+        QPointF boardCoo;
+        int itemAtField;
+        int shooted;
+    };
+
+    QList <boardField> playerOne = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
+    QList <boardField> playerTwo = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
+
+    bool gameOn = false;                             // gameOn  : false - gameOver/gamePreferences setting       true - game in proccess
+    bool gameType = false;                           // gameType: false - player vs player                       true - player vs computer
+    bool indicateTurn = false;                       // indicateTurn: false - player 1                           true - player 2
 
     int boardSizeX = 12;                             // gameBoard size dimension X
     int boardSizeY = 12;                             // gameBoard size dimension Y
@@ -46,7 +63,9 @@ public:
     double calculateBoardXDim (double battleAreaWidth);
     double calculateBoardYDim (double battleAreaHeight);
 
-    void resetBattleArea (QMap <QPointF, FieldStatus>& player, double battleAreaHeight, double battleAreaWidth  );
+    Q_INVOKABLE void resetBattleArea (QList <BackEnd::boardField> player, qreal battleAreaHeight, qreal battleAreaWidth);
+
+    // void resetBattleArea (QMap <QPointF, FieldStatus>& player, double battleAreaHeight, double battleAreaWidth  );
 
     void setShipsNo (int& ships6no, int& ships5no, int& ships4no, int& ships3no, int& ships2no);
     bool gameOnRead()const;
@@ -58,6 +77,9 @@ public:
     int ships4noRead()const;
     int ships3noRead()const;
     int ships2noRead()const;
+
+    QList<BackEnd::boardField> playerOneRead()const;
+    QList<BackEnd::boardField> playerTwoRead()const;
 
 //constructor:
     explicit BackEnd(QObject *parent = nullptr);
@@ -73,6 +95,9 @@ signals:
     void ships3noChanged(int ships3no);
     void ships2noChanged(int ships2no);
 
+    void playerOneChanged(QList<BackEnd::boardField>playerOne);
+    void playerTwoChanged(QList<BackEnd::boardField>playerTwo);
+
 public slots:
     void gameOnWrite(bool gameOn);
     void gameTypeWrite(bool gameType);
@@ -83,6 +108,9 @@ public slots:
     void ships4noWrite(int ships4no);
     void ships3noWrite(int ships3no);
     void ships2noWrite(int ships2no);
+
+    void playerOneWrite(QList<BackEnd::boardField>playerOne);
+    void playerTwoWrite(QList<BackEnd::boardField>playerTwo);
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 private:

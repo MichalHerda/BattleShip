@@ -87,16 +87,36 @@ void BackEnd::ships2noWrite(int ships2no) {
     emit ships2no;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-double calculateBoardXDim (double battleAreaWidth) {
+QList<BackEnd::boardField>BackEnd::playerOneRead()const {
+    return playerOne;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+QList<BackEnd::boardField>BackEnd::playerTwoRead()const {
+    return playerTwo;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+void BackEnd::playerOneWrite(QList<BackEnd::boardField>playerOne) {
+    this -> playerOne = playerOne;
+    emit playerOne;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+void BackEnd::playerTwoWrite(QList<BackEnd::boardField>playerTwo) {
+    this -> playerTwo = playerTwo;
+    emit playerTwo;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+double BackEnd::calculateBoardXDim (double battleAreaWidth) {
     BackEnd backend;
     return battleAreaWidth/backend.boardSizeX;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-double calculateBoardYDim (double battleAreaHeight) {
+double BackEnd::calculateBoardYDim (double battleAreaHeight) {
     BackEnd backend;
     return battleAreaHeight/backend.boardSizeY;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
 void resetBattleArea (QMap <QPointF, BackEnd::FieldStatus>& player, double battleAreaHeight, double battleAreaWidth ) {
     BackEnd backend;
     double xDim = calculateBoardXDim (battleAreaWidth) ;
@@ -106,8 +126,27 @@ void resetBattleArea (QMap <QPointF, BackEnd::FieldStatus>& player, double battl
            //player.insert(QPointF(j, i), BackEnd::FieldStatus{0,0}  );
         }
     }
-
-
-
 }
+*/
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+void BackEnd::resetBattleArea (QList <BackEnd::boardField> player, qreal battleAreaHeight, qreal battleAreaWidth) {
+    BackEnd backend;
+    double xDim = calculateBoardXDim (battleAreaWidth) ;
+    double yDim = calculateBoardYDim (battleAreaHeight) ;
+    int arrayNo = 0;
+    for (double i = 0; i < battleAreaHeight; i += yDim) {
+        for (double j = 0; j < battleAreaWidth; j += xDim ) {
+           player[arrayNo].boardCoo = QPointF(j, i);
+           player[arrayNo].itemAtField = 0;
+           player[arrayNo].shooted = 0;
+           arrayNo++;
+        }
+    }
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
