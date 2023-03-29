@@ -547,7 +547,9 @@ ApplicationWindow {
                     back.gameOnWrite(back.gameOn);
                     console.log("gameOn = ",back.gameOn);
                     settingsMenu.visible = false;
-                    placementPhaseMenu.visible = true;                   
+                    placementPhaseMenu.visible = true;
+                    console.log("PLAYER 1 BOARD: ", back.playerOne.length);
+                    back.playerOneWrite(back.playerOne);
                 }
 
                 Text {

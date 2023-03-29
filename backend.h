@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QtQml>
 #include <QtQml/qqmlregistration.h>
+#include <QDebug>
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 class BackEnd : public QObject
 {
@@ -24,29 +25,15 @@ class BackEnd : public QObject
     Q_PROPERTY (QList<boardField>playerOne READ playerOneRead WRITE playerOneWrite NOTIFY playerOneChanged)
     Q_PROPERTY (QList<boardField>playerTwo READ playerTwoRead WRITE playerTwoWrite NOTIFY playerTwoChanged)
 
-
     QML_ELEMENT
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 public:
-    //Q_INVOKABLE  void resetBattleArea (QList <boardField>& player, qreal battleAreaHeight, qreal battleAreaWidth);
-    /*
-    struct FieldStatus {
-        int itemAtField = 0;
-        int shooted = 0;
-    };
-
-    QMap <QPointF, FieldStatus> playerOne;
-    QMap <QPointF, FieldStatus> playerTwo;
-    */
 
     struct boardField {
         QPointF boardCoo;
         int itemAtField;
         int shooted;
-    };
-
-    QList <boardField> playerOne = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
-    QList <boardField> playerTwo = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
+    };   
 
     bool gameOn = false;                             // gameOn  : false - gameOver/gamePreferences setting       true - game in proccess
     bool gameType = false;                           // gameType: false - player vs player                       true - player vs computer
@@ -59,6 +46,9 @@ public:
     int ships4no = 3;
     int ships3no = 4;
     int ships2no = 5;
+
+    QList <boardField> playerOne = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
+    QList <boardField> playerTwo = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
 
     double calculateBoardXDim (double battleAreaWidth);
     double calculateBoardYDim (double battleAreaHeight);
@@ -114,7 +104,6 @@ public slots:
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 private:
-    void qPointAppend(int boardSizeX, int boardSizeY);
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 };
