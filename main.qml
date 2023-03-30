@@ -548,8 +548,12 @@ ApplicationWindow {
                     console.log("gameOn = ",back.gameOn);
                     settingsMenu.visible = false;
                     placementPhaseMenu.visible = true;
-                    console.log("PLAYER 1 BOARD: ", back.playerOne.length);
+                    //console.log("PLAYER 1 BOARD: ", back.playerOne.length);
+                    back.setCoo(battleArea.width,battleArea.height);
                     back.playerOneWrite(back.playerOne);
+                    back.playerTwoWrite(back.playerTwo);
+                    back.showVariables(back.playerOne);
+                    back.showVariables(back.playerTwo);
                 }
 
                 Text {
@@ -594,18 +598,21 @@ ApplicationWindow {
     //}
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    /*   Timer {
+/*
+      Timer {
             id: testTimer
             interval: 500
             repeat: true
             running: true
             onTriggered: {
-                console.log("ship2: ", back.ships2No)
-                console.log("ship3: ", back.ships3No)
-                console.log("ship4: ", back.ships4No)
-                console.log("ship5: ", back.ships5No)
-                console.log("ship6: ", back.ships6No)
+                console.log("ship2: ", back.ships2no)
+                console.log("ship3: ", back.ships3no)
+                console.log("ship4: ", back.ships4no)
+                console.log("ship5: ", back.ships5no)
+                console.log("ship6: ", back.ships6no)
+                console.log("boardX: ", back.boardSizeX)
+                console.log("boardY: ", back.boardSizeY)
             }
         }
-    */
+*/
 }

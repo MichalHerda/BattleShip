@@ -1,4 +1,3 @@
-
 #ifndef BACKEND_H
 #define BACKEND_H
 
@@ -10,6 +9,7 @@
 class BackEnd : public QObject
 {
     Q_OBJECT
+
     Q_PROPERTY (bool gameOn     READ gameOnRead     WRITE gameOnWrite     NOTIFY gameOnChanged     )
     Q_PROPERTY (bool gameType   READ gameTypeRead   WRITE gameTypeWrite   NOTIFY gameTypeChanged   )
 
@@ -53,11 +53,6 @@ public:
     double calculateBoardXDim (double battleAreaWidth);
     double calculateBoardYDim (double battleAreaHeight);
 
-    Q_INVOKABLE void resetBattleArea (QList <BackEnd::boardField> player, qreal battleAreaHeight, qreal battleAreaWidth);
-
-    // void resetBattleArea (QMap <QPointF, FieldStatus>& player, double battleAreaHeight, double battleAreaWidth  );
-
-    void setShipsNo (int& ships6no, int& ships5no, int& ships4no, int& ships3no, int& ships2no);
     bool gameOnRead()const;
     bool gameTypeRead()const;
     int boardSizeXRead()const;
@@ -70,6 +65,9 @@ public:
 
     QList<BackEnd::boardField> playerOneRead()const;
     QList<BackEnd::boardField> playerTwoRead()const;
+
+    Q_INVOKABLE void setCoo (qreal battleAreaWidth, qreal battleAreaHeight);            // set size of game grid square depending on battleArea size
+    Q_INVOKABLE void showVariables(QList<BackEnd::boardField>player);
 
 //constructor:
     explicit BackEnd(QObject *parent = nullptr);
@@ -104,6 +102,9 @@ public slots:
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 private:
+    double xCooDim;
+    double yCooDim;
+
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 };

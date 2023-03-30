@@ -29,6 +29,8 @@ int BackEnd::boardSizeXRead()const {
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 void BackEnd::boardSizeXWrite(int boardSizeX){
+    this -> playerOne.resize(boardSizeX * boardSizeY);
+    this -> playerTwo.resize(boardSizeX * boardSizeY);       // at the moment of changing boardSize, players arrays size is also changed
     this -> boardSizeX = boardSizeX;
     emit boardSizeXChanged(boardSizeX);
 }
@@ -38,6 +40,8 @@ int BackEnd::boardSizeYRead()const {
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 void BackEnd::boardSizeYWrite(int boardSizeY){
+    this -> playerOne.resize(boardSizeX * boardSizeY);       // at the moment of changing boardSize, players arrays size is also changed
+    this -> playerTwo.resize(boardSizeX * boardSizeY);
     this -> boardSizeY = boardSizeY;
     emit boardSizeYChanged(boardSizeY);
 }
@@ -96,16 +100,67 @@ QList<BackEnd::boardField>BackEnd::playerTwoRead()const {
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 void BackEnd::playerOneWrite(QList<BackEnd::boardField>playerOne) {
-    //this -> playerOne = playerOne;
-    //playerOne = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
-    qInfo() << playerOne[2].boardCoo << playerOne[2].itemAtField << playerOne[2].shooted;
-    qInfo() << playerOne.size();
+
+    //this -> playerOne.clear();
+    //this -> playerOne.resize(boardSizeX * boardSizeY);
+
+    qInfo() << "PLAYER1 ARRAY SIZE ____________________ " << playerOne.size();
+    qInfo() << "BOARD SIZE X___________________ " << boardSizeX;
+    qInfo() << "BOARD SIZE Y___________________ " << boardSizeY;
+
+    int arrayCounter = 0;
+    double x = 0;
+    double y = 0;
+
+    for (int a = 0; a < boardSizeY; a++) {
+
+        x = 0;
+
+        for (int b = 0; b < boardSizeX; b++) {
+
+            this -> playerOne[arrayCounter].boardCoo = QPointF(x,y);
+            this -> playerOne[arrayCounter].itemAtField = 0;
+            this -> playerOne[arrayCounter].shooted = 0;
+            x += xCooDim;
+            arrayCounter ++;
+        }
+
+        y += yCooDim;
+
+    }
 
     emit playerOneChanged(playerOne);
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 void BackEnd::playerTwoWrite(QList<BackEnd::boardField>playerTwo) {
-    //this -> playerTwo = playerTwo;
+
+    //this -> playerTwo.clear();
+    ///this -> playerTwo.resize(boardSizeX * boardSizeY);
+
+    qInfo() << "PLAYER2 ARRAY SIZE ____________________ " << playerTwo.size();                    // I also don't like that there are twin functions
+    qInfo() << "BOARD SIZE X___________________ " << boardSizeX;                                  // for playerOne & playerTwo
+    qInfo() << "BOARD SIZE Y___________________ " << boardSizeY;                                  // unfortunately I still don't know how to solve
+                                                                                                  // this in Qt Q_PROPERTY system
+    int arrayCounter = 0;
+    double x = 0;
+    double y = 0;
+
+    for (int a = 0; a < boardSizeY; a++) {
+
+        x = 0;
+
+        for (int b = 0; b < boardSizeX; b++) {
+
+            this -> playerTwo[arrayCounter].boardCoo = QPointF(x,y);
+            this -> playerTwo[arrayCounter].itemAtField = 0;
+            this -> playerTwo[arrayCounter].shooted = 0;
+            x += xCooDim;
+            arrayCounter ++;
+        }
+
+        y += yCooDim;
+
+    }
     emit playerTwoChanged(playerTwo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -120,19 +175,38 @@ double BackEnd::calculateBoardYDim (double battleAreaHeight) {
     return battleAreaHeight/backend.boardSizeY;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-/*
-void resetBattleArea (QMap <QPointF, BackEnd::FieldStatus>& player, double battleAreaHeight, double battleAreaWidth ) {
-    BackEnd backend;
-    double xDim = calculateBoardXDim (battleAreaWidth) ;
-    double yDim = calculateBoardYDim (battleAreaHeight) ;
-    for (int i = 0; i < battleAreaHeight; i + backend.boardSizeY ) {
-        for (int j = 0; j < battleAreaWidth; i + backend.boardSizeX ) {
-           //player.insert(QPointF(j, i), BackEnd::FieldStatus{0,0}  );
-        }
+void BackEnd::setCoo  (qreal battleAreaWidth, qreal battleAreaHeight) {
+    this -> xCooDim = battleAreaWidth/boardSizeX;
+    this -> yCooDim = battleAreaHeight/boardSizeY;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+void BackEnd::showVariables(QList<BackEnd::boardField>player) {
+    qInfo() << "PlayerOne array size: " << player.size();
+    qInfo() << "yCooDim: " << yCooDim;
+    qInfo() << "xCooDim: " << xCooDim;
+
+    for(int i = 0; i < player.size(); i++) {
+        qInfo() << "Coordinates for " << i << " item: " << player[i].boardCoo;
+        //qInfo() << "Item At Field " << i << ": " << playerOne[i].itemAtField;
+        //qInfo() << "Shooted " << i << ": " << playerOne[i].shooted;
     }
 }
-*/
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+/*
+
 void BackEnd::resetBattleArea (QList <BackEnd::boardField> player, qreal battleAreaHeight, qreal battleAreaWidth) {
     BackEnd backend;
     double xDim = calculateBoardXDim (battleAreaWidth) ;
@@ -147,11 +221,4 @@ void BackEnd::resetBattleArea (QList <BackEnd::boardField> player, qreal battleA
         }
     }
 }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-
+*/
