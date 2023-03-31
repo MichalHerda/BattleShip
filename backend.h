@@ -50,8 +50,8 @@ public:
     QList <boardField> playerOne = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
     QList <boardField> playerTwo = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
 
-    double calculateBoardXDim (double battleAreaWidth);
-    double calculateBoardYDim (double battleAreaHeight);
+    Q_INVOKABLE double calculateBoardXDim (double battleAreaWidth);
+    Q_INVOKABLE double calculateBoardYDim (double battleAreaHeight);
 
     bool gameOnRead()const;
     bool gameTypeRead()const;
@@ -68,6 +68,8 @@ public:
 
     Q_INVOKABLE void setCoo (qreal battleAreaWidth, qreal battleAreaHeight);            // set size of game grid square depending on battleArea size
     Q_INVOKABLE void showVariables(QList<BackEnd::boardField>player);
+
+    Q_INVOKABLE BackEnd::boardField findInitialCoo(int shipSize, QList<BackEnd::boardField>player);
 
 //constructor:
     explicit BackEnd(QObject *parent = nullptr);

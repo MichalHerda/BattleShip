@@ -21,13 +21,17 @@ ApplicationWindow {
         }
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------BATTLE AREA-----------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
     Rectangle {
-            id: battleAreaFrame
-            width: mainW.width
-            height: mainW.height/1.25
-            anchors.top: parent.top
-            color: "saddlebrown"
-
+        id: battleAreaFrame
+        width: mainW.width
+        height: mainW.height/1.25
+        anchors.top: parent.top
+        color: "saddlebrown"
+//----------------------------------------------------------------------------------------------------------------------------------------------------
         Rectangle {
             id: battleArea
             width: battleAreaFrame.width/1.05
@@ -35,7 +39,7 @@ ApplicationWindow {
             anchors.centerIn: parent
             color: "dodgerblue"
             border { color: "seagreen"; width: battleArea.width/50 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
             Grid {
                 id: battleAreaGrid
                 columns: back.boardSizeX
@@ -51,11 +55,105 @@ ApplicationWindow {
                         height: battleAreaGrid.height/back.boardSizeY
                         opacity: 0.5
                         border {color: "darkblue" ; width: battleArea.width/400 }
+                        //color: "black"
+                    }
+                }
+            }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------SHIPS---------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+            Loader {
+                id: shipLoader
+            }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+            Component {
+                id: ship2component
+                Repeater {
+                    id: ship2rep
+                    model: 4
+                    delegate: Rectangle {
+                        id: ship2
+                        width: back.calculateBoardXDim (battleArea.width)
+                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
+                        y: battleArea.height/2
+                        color: "sienna"
+
+                    }
+                }
+            }
+            Component {
+                id: ship3component
+                Repeater {
+                    id: ship3rep
+                    model: []
+                    delegate: Rectangle {
+                        id: ship3
+                        width: back.calculateBoardXDim (battleArea.width)
+                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
+                        y: battleArea.height/2
+                        color: "sienna"
+
+                    }
+                }
+            }
+            Component {
+                id: ship4component
+                Repeater {
+                    id: ship4rep
+                    model: []
+                    delegate: Rectangle {
+                        id: ship4
+                        width: back.calculateBoardXDim (battleArea.width)
+                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
+                        y: battleArea.height/2
+                        color: "sienna"
+
+                    }
+                }
+            }
+            Component {
+                id: ship5component
+                Repeater {
+                    id: ship5rep
+                    model: []
+                    delegate: Rectangle {
+                        id: ship5
+                        width: back.calculateBoardXDim (battleArea.width)
+                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
+                        y: battleArea.height/2
+                        color: "sienna"
+
+                    }
+                }
+            }
+            Component {
+                id: ship6component
+                Repeater {
+                    id: ship6rep
+                    model: []
+                    delegate: Rectangle {
+                        id: ship6
+                        width: back.calculateBoardXDim (battleArea.width)
+                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
+                        y: battleArea.height/2
+                        color: "sienna"
+
                     }
                 }
             }
         }
     }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------PLACEMENT PHASE MENU------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
     Rectangle {
         id: placementPhaseMenu
@@ -64,13 +162,13 @@ ApplicationWindow {
         anchors.bottom: parent.bottom
 
         visible: false
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
         Row {
             id: placementPhaseMenuRow
             width: placementPhaseMenu.width
             height: placementPhaseMenu.height
 
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
             Rectangle {
                 id: placementPhaseMenuPlayerIndicate
                 width: placementPhaseMenu.width/7
@@ -86,7 +184,7 @@ ApplicationWindow {
                     Label { text: "YOUR SHIPS" }
                 }
             }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
             Repeater {
                 id: placementPhaseMenuRep
                 width: placementPhaseMenu.width/1.1
@@ -127,6 +225,11 @@ ApplicationWindow {
                                 color: button1.pressed ? "orange" : "yellow"
                                 border {color: button1.pressed ? "red" : "cadetblue"; width: button1.width/20}
                             }
+                            onClicked:  {
+
+                                shipLoader.sourceComponent = ship2component;
+
+                            }
                         }
                         Button {
                             id: button2
@@ -151,6 +254,7 @@ ApplicationWindow {
                     }
                 }
             }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
             Button {
                 id: goBackButton
                 width: placementPhaseMenu.width/20
@@ -169,7 +273,7 @@ ApplicationWindow {
                         Label { text: "K"}
                 }
             }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
             Button {
                 id: startGameButton
                 width:  placementPhaseMenu.width/20
@@ -189,9 +293,12 @@ ApplicationWindow {
                         Label { text: "T"}
                 }
             }
-
         }
     }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------SETTINGS MENU------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
         Rectangle {
             id: settingsMenu
@@ -200,7 +307,7 @@ ApplicationWindow {
             anchors.centerIn: parent
             color: settingsMenuColor
             border { color: settingsMenuBorderColor; width: settingsMenu.width/40 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
             Column {
                 id: settingsMenuColumn
                 width: settingsMenu.width
@@ -213,7 +320,7 @@ ApplicationWindow {
                     width: settingsMenu.width/10
                     height: settingsMenu.height/40
                 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                 Rectangle {
                     id: playerModeRec
                     width: settingsMenu.width/1.5
@@ -256,7 +363,7 @@ ApplicationWindow {
                         }
                     }
                 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                 Rectangle {
                     id: seaDimensionRec
                     width: settingsMenu.width/1.5
@@ -265,7 +372,7 @@ ApplicationWindow {
                     color: settingsMenuColor
                     clip: true
                     border { color: settingsMenuBorderColor; width: settingsMenu.width/60 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                     Column {
                         id: seaDimensionColumn
                         width: settingsMenu.width/3
@@ -283,7 +390,7 @@ ApplicationWindow {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: "SEA DIMENSIONS :"
                         }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                         Row {
                             id: seaDimRow
                             spacing: seaDimensionColumn.width/5
@@ -320,7 +427,7 @@ ApplicationWindow {
                                     }
                                 }                               
                             }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                             Column {
                                 spacing: 5
 
@@ -354,7 +461,7 @@ ApplicationWindow {
                         }
                     }                   
                 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                 Rectangle {
                     id: shipsNoRec
                     width: settingsMenu.width/1.5
@@ -363,7 +470,7 @@ ApplicationWindow {
                     color: settingsMenuColor
                     clip: true
                     border { color: settingsMenuBorderColor; width: settingsMenu.width/60 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                     Column {
                         id: shipsNoColumn
                         width: settingsMenu.width/3
@@ -381,7 +488,7 @@ ApplicationWindow {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: "NUMBER OF SHIPS :"
                         }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                         Row {
                             id: shipsNoRow
                             spacing: seaDimensionColumn.width/5
@@ -417,7 +524,7 @@ ApplicationWindow {
                                         placementPhaseMenuRep.itemAt(0).children[0].children[1].text = back.ships2no
                                     }
                                 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                                 Label {
                                     font.pointSize: 6
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -444,7 +551,7 @@ ApplicationWindow {
                                         placementPhaseMenuRep.itemAt(1).children[0].children[1].text = back.ships3no
                                     }
                                 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                                 Label {
                                     font.pointSize: 6
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -472,7 +579,7 @@ ApplicationWindow {
                                     }
                                 }
                             }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                             Column {
                                 spacing: 5
 
@@ -502,7 +609,7 @@ ApplicationWindow {
                                         placementPhaseMenuRep.itemAt(3).children[0].children[1].text = back.ships5no
                                     }
                                 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                                 Label {
                                     font.pointSize: 6
                                     anchors.horizontalCenter: parent.horizontalCenter
@@ -533,6 +640,7 @@ ApplicationWindow {
                         }
                     }
                 }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
             Button {
                 id: gameStartButton
                 width: settingsMenu.width/2
@@ -565,7 +673,7 @@ ApplicationWindow {
             }
         }
     }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
     Rectangle {
         id: inProgress
         width: mainW.width/2
@@ -591,7 +699,7 @@ ApplicationWindow {
             }
         }
     }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
     //Component.onCompleted: {
     //    back.ships2noChanged(back.ships2no);
     //   back.ships2noWrite(back.ships2no);
@@ -616,3 +724,14 @@ ApplicationWindow {
         }
 */
 }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------
