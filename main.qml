@@ -13,6 +13,7 @@ ApplicationWindow {
 
     property color settingsMenuColor: "darksalmon"
     property color settingsMenuBorderColor: "brown"
+    property color shipColor: "sienna"
 
     BackEnd {
         id: back
@@ -54,8 +55,7 @@ ApplicationWindow {
                         width: battleAreaGrid.width/back.boardSizeX
                         height: battleAreaGrid.height/back.boardSizeY
                         opacity: 0.5
-                        border {color: "darkblue" ; width: battleArea.width/400 }
-                        //color: "black"
+                        border {color: "darkblue" ; width: battleArea.width/400 }                       
                     }
                 }
             }
@@ -67,19 +67,23 @@ ApplicationWindow {
             Loader {
                 id: shipLoader
             }
+            ListModel {
+                id: ship2list                             
+            }
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------
             Component {
                 id: ship2component
                 Repeater {
                     id: ship2rep
-                    model: 4
+                    model: ship2list
                     delegate: Rectangle {
                         id: ship2
                         width: back.calculateBoardXDim (battleArea.width)
                         height: back.calculateBoardYDim (battleArea.height) * 2
-                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
+                        x: ( battleArea.width/4 + 2 * ( ship2list.count * back.calculateBoardXDim (battleArea.width) ) )
                         y: battleArea.height/2
-                        color: "sienna"
+                        color: shipColor
 
                     }
                 }
@@ -92,10 +96,10 @@ ApplicationWindow {
                     delegate: Rectangle {
                         id: ship3
                         width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        height: back.calculateBoardYDim (battleArea.height) * 3
                         x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
                         y: battleArea.height/2
-                        color: "sienna"
+                        color: shipColor
 
                     }
                 }
@@ -108,10 +112,10 @@ ApplicationWindow {
                     delegate: Rectangle {
                         id: ship4
                         width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        height: back.calculateBoardYDim (battleArea.height) * 4
                         x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
                         y: battleArea.height/2
-                        color: "sienna"
+                        color: shipColor
 
                     }
                 }
@@ -124,10 +128,10 @@ ApplicationWindow {
                     delegate: Rectangle {
                         id: ship5
                         width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        height: back.calculateBoardYDim (battleArea.height) * 5
                         x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
                         y: battleArea.height/2
-                        color: "sienna"
+                        color: shipColor
 
                     }
                 }
@@ -140,10 +144,10 @@ ApplicationWindow {
                     delegate: Rectangle {
                         id: ship6
                         width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 2
+                        height: back.calculateBoardYDim (battleArea.height) * 6
                         x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
                         y: battleArea.height/2
-                        color: "sienna"
+                        color: shipColor
 
                     }
                 }
@@ -192,11 +196,11 @@ ApplicationWindow {
                 model: ListModel {
                     property bool completed: false
                     Component.onCompleted: {
-                        append({name: "2 DESTROYER",  number: back.ships2no})
-                        append({name: "3 CRUISER",    number: back.ships3no})
-                        append({name: "4 BATTLESHIP", number: back.ships4no})
-                        append({name: "5 CARRIER",    number: back.ships5no})
-                        append({name: "6 CLIPPER",    number: back.ships6no})
+                        append({name: "2 DESTROYER",  number: back.shipsNumber[0]})
+                        append({name: "3 CRUISER",    number: back.shipsNumber[1]})
+                        append({name: "4 BATTLESHIP", number: back.shipsNumber[2]})
+                        append({name: "5 CARRIER",    number: back.shipsNumber[3]})
+                        append({name: "6 CLIPPER",    number: back.shipsNumber[4]})
                         completed = true
                     }
                 }
@@ -227,6 +231,7 @@ ApplicationWindow {
                             }
                             onClicked:  {
 
+                                ship2list.append({x: 150,y:180})
                                 shipLoader.sourceComponent = ship2component;
 
                             }
@@ -507,7 +512,7 @@ ApplicationWindow {
                                     id: ships2No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
-                                    currentIndex: back.ships2no
+                                    currentIndex: back.shipsNumber[0]
                                     model: ListModel {
                                         id: comboModelShips2No
                                         }
@@ -518,10 +523,11 @@ ApplicationWindow {
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText)
-                                        back.ships2noWrite(intValue)
-                                        console.log("ships 2 number = ",back.ships2no)
-                                        console.log("searching item: ", placementPhaseMenuRep.itemAt(0).children[0].children[1])// = back.ships2no.toString()
-                                        placementPhaseMenuRep.itemAt(0).children[0].children[1].text = back.ships2no
+                                        //back.ships2noWrite(intValue);
+                                        back.shipsNumberModify(back.shipsNumber,0,intValue);
+                                        console.log("ships 2 number = ",back.shipsNumber[0]);
+                                        console.log("searching item: ", placementPhaseMenuRep.itemAt(0).children[0].children[1]);// = back.ships2no.toString()
+                                        placementPhaseMenuRep.itemAt(0).children[0].children[1].text = back.shipsNumber[0];
                                     }
                                 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -535,7 +541,7 @@ ApplicationWindow {
                                     id: ships3No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
-                                    currentIndex: back.ships3no
+                                    currentIndex: back.shipsNumber[1]
                                     model: ListModel {
                                         id: comboModelShips3No
                                         }
@@ -545,10 +551,11 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText)
-                                        back.ships3noWrite(intValue)
-                                        console.log("ships 3 number = ",back.ships3no)
-                                        placementPhaseMenuRep.itemAt(1).children[0].children[1].text = back.ships3no
+                                        var intValue = parseInt(currentText);
+                                        //back.ships3noWrite(intValue);
+                                        back.shipsNumberModify(back.shipsNumber,1,intValue);
+                                        console.log("ships 3 number = ",back.shipsNumber[1]);
+                                        placementPhaseMenuRep.itemAt(1).children[0].children[1].text = back.shipsNumber[1];
                                     }
                                 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -562,20 +569,21 @@ ApplicationWindow {
                                     id: ships4No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
-                                    currentIndex: back.ships4no
+                                    currentIndex: back.shipsNumber[2]
                                     model: ListModel {
                                         id: comboModelShips4No
                                         }
                                     Component.onCompleted: {
                                         for(let i = 0; i <= 4; i++) {
-                                              comboModelShips4No.append({text: i.toString()})
+                                              comboModelShips4No.append({text: i.toString()});
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText)
-                                        back.ships4noWrite(intValue)
-                                        console.log("ships 4 number = ",back.ships4no)
-                                        placementPhaseMenuRep.itemAt(2).children[0].children[1].text = back.ships4no
+                                        var intValue = parseInt(currentText);
+                                        //back.ships4noWrite(intValue);
+                                        back.shipsNumberModify(back.shipsNumber,2,intValue);
+                                        console.log("ships 4 number = ",back.shipsNumber[2]);
+                                        placementPhaseMenuRep.itemAt(2).children[0].children[1].text = back.shipsNumber[2];
                                     }
                                 }
                             }
@@ -593,7 +601,7 @@ ApplicationWindow {
                                     id: ships5No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
-                                    currentIndex: back.ships5no
+                                    currentIndex: back.shipsNumber[3]
                                     model: ListModel {
                                         id: comboModelShips5No
                                         }
@@ -603,10 +611,11 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText)
-                                        back.ships5noWrite(intValue)
-                                        console.log("ships 5 number = ",back.ships5no)
-                                        placementPhaseMenuRep.itemAt(3).children[0].children[1].text = back.ships5no
+                                        var intValue = parseInt(currentText);
+                                        //back.ships5noWrite(intValue);
+                                        back.shipsNumberModify(back.shipsNumber,3,intValue);
+                                        console.log("ships 5 number = ",back.shipsNumber[3]);
+                                        placementPhaseMenuRep.itemAt(3).children[0].children[1].text = back.shipsNumber[3];
                                     }
                                 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -620,7 +629,7 @@ ApplicationWindow {
                                     id: ships6No
                                     width: seaDimensionRec.width/3
                                     height: seaDimensionRec.height/5
-                                    currentIndex: back.ships6no
+                                    currentIndex: back.shipsNumber[4]
                                     model: ListModel {
                                         id: comboModelShips6No
                                         }
@@ -630,10 +639,11 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText)
-                                        back.ships6noWrite(intValue)
-                                        console.log("ships 6 number = ",back.ships6no)
-                                        placementPhaseMenuRep.itemAt(4).children[0].children[1].text = back.ships6no
+                                        var intValue = parseInt(currentText);
+                                        //back.ships6noWrite(intValue);
+                                        back.shipsNumberModify(back.shipsNumber,4,intValue);
+                                        console.log("ships 6 number = ",back.shipsNumber[4]);
+                                        placementPhaseMenuRep.itemAt(4).children[0].children[1].text = back.shipsNumber[4];
                                     }
                                 }
                             }

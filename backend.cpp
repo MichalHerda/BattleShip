@@ -46,49 +46,8 @@ void BackEnd::boardSizeYWrite(int boardSizeY){
     emit boardSizeYChanged(boardSizeY);
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-int BackEnd::ships6noRead()const {
-    return ships6no;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-void BackEnd::ships6noWrite(int ships6no) {
-    this -> ships6no = ships6no;
-    emit ships6noChanged(ships6no);
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-int BackEnd::ships5noRead()const {
-    return ships5no;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-void BackEnd::ships5noWrite(int ships5no) {
-    this -> ships5no = ships5no;
-    emit ships5noChanged(ships5no);
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-int BackEnd::ships4noRead()const {
-    return ships4no;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-void BackEnd::ships4noWrite(int ships4no) {
-    this -> ships4no = ships4no;
-    emit ships4noChanged(ships4no);
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-int BackEnd::ships3noRead()const {
-    return ships3no;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-void BackEnd::ships3noWrite(int ships3no) {
-    this -> ships3no = ships3no;
-    emit ships3noChanged(ships3no);
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-int BackEnd::ships2noRead()const {
-    return ships2no;
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-void BackEnd::ships2noWrite(int ships2no) {
-    this -> ships2no = ships2no;
-    emit ships2noChanged(ships2no);
+QList<int> BackEnd::shipsNumberRead()const {
+    return shipsNumber;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 QList<BackEnd::boardField>BackEnd::playerOneRead()const {
@@ -101,8 +60,7 @@ QList<BackEnd::boardField>BackEnd::playerTwoRead()const {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 void BackEnd::playerOneWrite(QList<BackEnd::boardField>playerOne) {
 
-    //this -> playerOne.clear();
-    //this -> playerOne.resize(boardSizeX * boardSizeY);
+    // array resizing in BoardSizeXWrite and boardSizeYWrite functions
 
     qInfo() << "PLAYER1 ARRAY SIZE ____________________ " << playerOne.size();
     qInfo() << "BOARD SIZE X___________________ " << boardSizeX;
@@ -134,8 +92,7 @@ void BackEnd::playerOneWrite(QList<BackEnd::boardField>playerOne) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 void BackEnd::playerTwoWrite(QList<BackEnd::boardField>playerTwo) {
 
-    //this -> playerTwo.clear();
-    ///this -> playerTwo.resize(boardSizeX * boardSizeY);
+    // array resizing in BoardSizeXWrite and boardSizeYWrite functions
 
     qInfo() << "PLAYER2 ARRAY SIZE ____________________ " << playerTwo.size();                    // I also don't like that there are twin functions
     qInfo() << "BOARD SIZE X___________________ " << boardSizeX;                                  // for playerOne & playerTwo
@@ -186,21 +143,22 @@ void BackEnd::showVariables(QList<BackEnd::boardField>player) {
     qInfo() << "xCooDim: " << xCooDim;
 
     for(int i = 0; i < player.size(); i++) {
-        qInfo() << "Coordinates for " << i << " item: " << player[i].boardCoo;
+        qInfo() << "Values for " << i << " item. Coordinates: " << player[i].boardCoo << ". Item At Field: " << playerOne[i].itemAtField
+                                                                << ". Shooted: " << playerOne[i].shooted;
         //qInfo() << "Item At Field " << i << ": " << playerOne[i].itemAtField;
         //qInfo() << "Shooted " << i << ": " << playerOne[i].shooted;
     }
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-BackEnd::boardField BackEnd::findInitialCoo(int shipSize, QList<BackEnd::boardField>player) {
-
+void BackEnd::shipsNumberModify (QList<int>shipsNumber,int index, int newValue) {
+    this -> shipsNumber[index] = newValue;                                          //  array index:
+                                                                                    //  0 -2 destroyer
+    emit shipsNumberChanged(shipsNumber);
 }
-/*
-void BackEnd::calculateInitialShipCoo(){
-
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+void BackEnd::launchTheShip(bool indicateTurn, QList<int> shipsNumber, QList<int> shipsAtSea, int typeOfShip) {
+    this -> shipsAtSea[typeOfShip] ++;
 }
-*/
-
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -208,26 +166,3 @@ void BackEnd::calculateInitialShipCoo(){
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-
-
-/*
-
-void BackEnd::resetBattleArea (QList <BackEnd::boardField> player, qreal battleAreaHeight, qreal battleAreaWidth) {
-    BackEnd backend;
-    double xDim = calculateBoardXDim (battleAreaWidth) ;
-    double yDim = calculateBoardYDim (battleAreaHeight) ;
-    int arrayNo = 0;
-    for (double i = 0; i < battleAreaHeight; i += yDim) {
-        for (double j = 0; j < battleAreaWidth; j += xDim ) {
-           player[arrayNo].boardCoo = QPointF(j, i);
-           player[arrayNo].itemAtField = 0;
-           player[arrayNo].shooted = 0;
-           arrayNo++;
-        }
-    }
-}
-*/
