@@ -64,96 +64,118 @@ ApplicationWindow {
 //--------------------------------------------------------------------SHIPS---------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-            Loader {
-                id: shipLoader
-            }
             ListModel {
-                id: ship2list                             
+                id: ships2list
+                Component.onCompleted: {
+                    for (let a = 0; a < 5; a++ ) {
+                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 4 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        let shipY = back.calculateBoardYDim(battleArea.height) * 2
+                        ships2list.append({shipX,shipY})
+                    }
+                }
             }
-
+            Repeater {
+                id: ships2rep
+                model: ships2list
+                delegate: Rectangle {
+                    width: ( back.calculateBoardXDim(battleArea.width) ) * 2
+                    height: back.calculateBoardYDim(battleArea.height)
+                    x: shipX
+                    y: shipY
+                    color: shipColor
+                }
+            }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-            Component {
-                id: ship2component
-                Repeater {
-                    id: ship2rep
-                    model: ship2list
-                    delegate: Rectangle {
-                        id: ship2
-                        width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 2
-                        x: ( battleArea.width/4 + 2 * ( ship2list.count * back.calculateBoardXDim (battleArea.width) ) )
-                        y: battleArea.height/2
-                        color: shipColor
-
+            ListModel {
+                id: ships3list
+                Component.onCompleted: {
+                    for (let a = 0; a < 4; a++ ) {
+                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 6 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        let shipY = back.calculateBoardYDim(battleArea.height) * 6
+                        ships3list.append({shipX,shipY})
                     }
                 }
             }
-            Component {
-                id: ship3component
-                Repeater {
-                    id: ship3rep
-                    model: []
-                    delegate: Rectangle {
-                        id: ship3
-                        width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 3
-                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
-                        y: battleArea.height/2
-                        color: shipColor
-
+            Repeater {
+                id: ships3rep
+                model: ships3list
+                delegate: Rectangle {
+                    width: ( back.calculateBoardXDim(battleArea.width) ) * 3
+                    height: back.calculateBoardYDim(battleArea.height)
+                    x: shipX
+                    y: shipY
+                    color: shipColor
+                }
+            }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+            ListModel {
+                id: ships4list
+                Component.onCompleted: {
+                    for (let a = 0; a < 3; a++ ) {
+                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        let shipY = back.calculateBoardYDim(battleArea.height) * 10
+                        ships4list.append({shipX,shipY})
                     }
                 }
             }
-            Component {
-                id: ship4component
-                Repeater {
-                    id: ship4rep
-                    model: []
-                    delegate: Rectangle {
-                        id: ship4
-                        width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 4
-                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
-                        y: battleArea.height/2
-                        color: shipColor
-
+            Repeater {
+                id: ships4rep
+                model: ships4list
+                delegate: Rectangle {
+                    width: ( back.calculateBoardXDim(battleArea.width) ) * 4
+                    height: back.calculateBoardYDim(battleArea.height)
+                    x: shipX
+                    y: shipY
+                    color: shipColor
+                }
+            }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+            ListModel {
+                id: ships5list
+                Component.onCompleted: {
+                    for (let a = 0; a < 2; a++ ) {
+                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        let shipY = back.calculateBoardYDim(battleArea.height) * 14
+                        ships5list.append({shipX,shipY})
                     }
                 }
             }
-            Component {
-                id: ship5component
-                Repeater {
-                    id: ship5rep
-                    model: []
-                    delegate: Rectangle {
-                        id: ship5
-                        width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 5
-                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
-                        y: battleArea.height/2
-                        color: shipColor
-
+            Repeater {
+                id: ships5rep
+                model: ships5list
+                delegate: Rectangle {
+                    width: ( back.calculateBoardXDim(battleArea.width) ) * 5
+                    height: back.calculateBoardYDim(battleArea.height)
+                    x: shipX
+                    y: shipY
+                    color: shipColor
+                }
+            }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+            ListModel {
+                id: ships6list
+                Component.onCompleted: {
+                    for (let a = 0; a < 1; a++ ) {
+                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        let shipY = back.calculateBoardYDim(battleArea.height) * 18
+                        ships6list.append({shipX,shipY})
                     }
                 }
             }
-            Component {
-                id: ship6component
-                Repeater {
-                    id: ship6rep
-                    model: []
-                    delegate: Rectangle {
-                        id: ship6
-                        width: back.calculateBoardXDim (battleArea.width)
-                        height: back.calculateBoardYDim (battleArea.height) * 6
-                        x: ( battleArea.width/4 + 2* ( index * back.calculateBoardXDim (battleArea.width) ) ) //+ back.calculateBoardXDim (battleArea.width)
-                        y: battleArea.height/2
-                        color: shipColor
-
-                    }
+            Repeater {
+                id: ships6rep
+                model: ships6list
+                delegate: Rectangle {
+                    width: ( back.calculateBoardXDim(battleArea.width) ) * 6
+                    height: back.calculateBoardYDim(battleArea.height)
+                    x: shipX
+                    y: shipY
+                    color: shipColor
                 }
             }
-        }
-    }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+        } // battleArea brace
+    } //battleAreaFrame brace
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------PLACEMENT PHASE MENU------------------------------------------------------------------
@@ -231,8 +253,6 @@ ApplicationWindow {
                             }
                             onClicked:  {
 
-                                ship2list.append({x: 150,y:180})
-                                shipLoader.sourceComponent = ship2component;
 
                             }
                         }
@@ -427,8 +447,7 @@ ApplicationWindow {
                                         let intValue = parseInt(currentText)
                                         back.boardSizeYWrite(intValue)
                                         back.boardSizeYChanged(intValue)
-                                        console.log("boardSizeY = ",back.boardSizeY)
-                                        //back.resetBattleArea(back.playerOne,battleArea.height, battleArea.width)
+                                        console.log("boardSizeY = ",back.boardSizeY)                                        
                                     }
                                 }                               
                             }
@@ -522,8 +541,7 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText)
-                                        //back.ships2noWrite(intValue);
+                                        var intValue = parseInt(currentText)                                       
                                         back.shipsNumberModify(back.shipsNumber,0,intValue);
                                         console.log("ships 2 number = ",back.shipsNumber[0]);
                                         console.log("searching item: ", placementPhaseMenuRep.itemAt(0).children[0].children[1]);// = back.ships2no.toString()
@@ -552,7 +570,6 @@ ApplicationWindow {
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText);
-                                        //back.ships3noWrite(intValue);
                                         back.shipsNumberModify(back.shipsNumber,1,intValue);
                                         console.log("ships 3 number = ",back.shipsNumber[1]);
                                         placementPhaseMenuRep.itemAt(1).children[0].children[1].text = back.shipsNumber[1];
@@ -579,8 +596,7 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText);
-                                        //back.ships4noWrite(intValue);
+                                        var intValue = parseInt(currentText);                                       
                                         back.shipsNumberModify(back.shipsNumber,2,intValue);
                                         console.log("ships 4 number = ",back.shipsNumber[2]);
                                         placementPhaseMenuRep.itemAt(2).children[0].children[1].text = back.shipsNumber[2];
@@ -611,8 +627,7 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText);
-                                        //back.ships5noWrite(intValue);
+                                        var intValue = parseInt(currentText);                                       
                                         back.shipsNumberModify(back.shipsNumber,3,intValue);
                                         console.log("ships 5 number = ",back.shipsNumber[3]);
                                         placementPhaseMenuRep.itemAt(3).children[0].children[1].text = back.shipsNumber[3];
@@ -639,8 +654,7 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        var intValue = parseInt(currentText);
-                                        //back.ships6noWrite(intValue);
+                                        var intValue = parseInt(currentText);                                       
                                         back.shipsNumberModify(back.shipsNumber,4,intValue);
                                         console.log("ships 6 number = ",back.shipsNumber[4]);
                                         placementPhaseMenuRep.itemAt(4).children[0].children[1].text = back.shipsNumber[4];
@@ -665,8 +679,7 @@ ApplicationWindow {
                     back.gameOnWrite(back.gameOn);
                     console.log("gameOn = ",back.gameOn);
                     settingsMenu.visible = false;
-                    placementPhaseMenu.visible = true;
-                    //console.log("PLAYER 1 BOARD: ", back.playerOne.length);
+                    placementPhaseMenu.visible = true;                   
                     back.setCoo(battleArea.width,battleArea.height);
                     back.playerOneWrite(back.playerOne);
                     back.playerTwoWrite(back.playerTwo);
@@ -710,29 +723,20 @@ ApplicationWindow {
         }
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Component.onCompleted: {
-    //    back.ships2noChanged(back.ships2no);
-    //   back.ships2noWrite(back.ships2no);
-    //}
 
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-/*
       Timer {
             id: testTimer
             interval: 500
             repeat: true
             running: true
             onTriggered: {
-                console.log("ship2: ", back.ships2no)
-                console.log("ship3: ", back.ships3no)
-                console.log("ship4: ", back.ships4no)
-                console.log("ship5: ", back.ships5no)
-                console.log("ship6: ", back.ships6no)
+
                 console.log("boardX: ", back.boardSizeX)
                 console.log("boardY: ", back.boardSizeY)
+                console.log("playerOne: ", back.playerOne[1])
             }
         }
-*/
+
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------

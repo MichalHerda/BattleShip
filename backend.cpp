@@ -145,8 +145,6 @@ void BackEnd::showVariables(QList<BackEnd::boardField>player) {
     for(int i = 0; i < player.size(); i++) {
         qInfo() << "Values for " << i << " item. Coordinates: " << player[i].boardCoo << ". Item At Field: " << playerOne[i].itemAtField
                                                                 << ". Shooted: " << playerOne[i].shooted;
-        //qInfo() << "Item At Field " << i << ": " << playerOne[i].itemAtField;
-        //qInfo() << "Shooted " << i << ": " << playerOne[i].shooted;
     }
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -156,9 +154,7 @@ void BackEnd::shipsNumberModify (QList<int>shipsNumber,int index, int newValue) 
     emit shipsNumberChanged(shipsNumber);
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-void BackEnd::launchTheShip(bool indicateTurn, QList<int> shipsNumber, QList<int> shipsAtSea, int typeOfShip) {
-    this -> shipsAtSea[typeOfShip] ++;
-}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------------------------------

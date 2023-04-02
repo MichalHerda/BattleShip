@@ -35,11 +35,11 @@ public:
     bool gameType = false;                              // gameType: false - player vs player                       true - player vs computer
     bool indicateTurn = false;                          // indicateTurn: false - player 1                           true - player 2
 
-    int boardSizeX = 12;                                // gameBoard size dimension X
-    int boardSizeY = 12;                                // gameBoard size dimension Y
+    int boardSizeX = 24;                                // gameBoard size dimension X
+    int boardSizeY = 24;                                // gameBoard size dimension Y
 
     QList<int> shipsNumber = QList<int> {5,4,3,2,1};    // indexes of types of ships for both arrays: 0 = 2ship, 1 = 3ship,
-    QList<int> shipsAtSea  = QList<int> {0,0,0,0,0};    // 2 = 4 ship, 3 = 5 ship, 4 = 6 ship
+                                                        // 2 = 4 ship, 3 = 5 ship, 4 = 6 ship
 
     QList <boardField> playerOne = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
     QList <boardField> playerTwo = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
@@ -48,8 +48,6 @@ public:
     Q_INVOKABLE double calculateBoardYDim (double battleAreaHeight);
 
     Q_INVOKABLE void shipsNumberModify (QList<int>shipsNumber,int index, int newValue);
-
-    Q_INVOKABLE void launchTheShip (bool indicateTurn, QList<int> shipsNumber, QList<int> shipsAtSea, int typeOfShip);
 
     bool gameOnRead()const;
     bool gameTypeRead()const;
@@ -63,8 +61,6 @@ public:
 
     Q_INVOKABLE void setCoo (qreal battleAreaWidth, qreal battleAreaHeight);            // set size of game grid square depending on battleArea size
     Q_INVOKABLE void showVariables(QList<BackEnd::boardField>player);
-
-//    Q_INVOKABLE BackEnd::boardField findInitialCoo(int shipSize, QList<BackEnd::boardField>player);
 
 //constructor:
     explicit BackEnd(QObject *parent = nullptr);
