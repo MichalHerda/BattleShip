@@ -67,7 +67,7 @@ ApplicationWindow {
             ListModel {
                 id: ships2list
                 Component.onCompleted: {
-                    for (let a = 0; a < 5; a++ ) {
+                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,0); a++ ) {
                         let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 4 * a )  *  back.calculateBoardXDim(battleArea.width) )
                         let shipY = back.calculateBoardYDim(battleArea.height) * 2
                         ships2list.append({shipX,shipY})
@@ -89,7 +89,7 @@ ApplicationWindow {
             ListModel {
                 id: ships3list
                 Component.onCompleted: {
-                    for (let a = 0; a < 4; a++ ) {
+                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,1); a++ ) {
                         let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 6 * a )  *  back.calculateBoardXDim(battleArea.width) )
                         let shipY = back.calculateBoardYDim(battleArea.height) * 6
                         ships3list.append({shipX,shipY})
@@ -111,7 +111,7 @@ ApplicationWindow {
             ListModel {
                 id: ships4list
                 Component.onCompleted: {
-                    for (let a = 0; a < 3; a++ ) {
+                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,2); a++ ) {
                         let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
                         let shipY = back.calculateBoardYDim(battleArea.height) * 10
                         ships4list.append({shipX,shipY})
@@ -133,7 +133,7 @@ ApplicationWindow {
             ListModel {
                 id: ships5list
                 Component.onCompleted: {
-                    for (let a = 0; a < 2; a++ ) {
+                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,3); a++ ) {
                         let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
                         let shipY = back.calculateBoardYDim(battleArea.height) * 14
                         ships5list.append({shipX,shipY})
@@ -155,7 +155,7 @@ ApplicationWindow {
             ListModel {
                 id: ships6list
                 Component.onCompleted: {
-                    for (let a = 0; a < 1; a++ ) {
+                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,4); a++ ) {
                         let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
                         let shipY = back.calculateBoardYDim(battleArea.height) * 18
                         ships6list.append({shipX,shipY})
@@ -731,9 +731,11 @@ ApplicationWindow {
             running: true
             onTriggered: {
 
-                console.log("boardX: ", back.boardSizeX)
-                console.log("boardY: ", back.boardSizeY)
-                console.log("playerOne: ", back.playerOne[1])
+                console.log("boardX: ", back.boardSizeX);
+                console.log("boardY: ", back.boardSizeY);
+                console.log("playerOne: ", back.playerOne[1]);
+                console.log("array index: ", back.getArrayIndex(back.shipsNumber,0) );
+                console.log("number of kinds of ship: ", back.calculateNumberOfKindOfShips(back.shipsNumber));
             }
         }
 

@@ -58,6 +58,10 @@ QList<BackEnd::boardField>BackEnd::playerTwoRead()const {
     return playerTwo;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+int BackEnd::getArrayIndex(QList<int>shipsNumber, int index) {
+    return shipsNumber[index];
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
 void BackEnd::playerOneWrite(QList<BackEnd::boardField>playerOne) {
 
     // array resizing in BoardSizeXWrite and boardSizeYWrite functions
@@ -121,6 +125,26 @@ void BackEnd::playerTwoWrite(QList<BackEnd::boardField>playerTwo) {
     emit playerTwoChanged(playerTwo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+int BackEnd::calculateNumberOfKindOfShips(QList<int>shipsNumber) {
+    int numberOfKindOfShips = 0;
+    for(int i = 0; i < shipsNumber.length(); i++) {
+        if(shipsNumber[i] > 0) numberOfKindOfShips++;
+    }
+    return numberOfKindOfShips;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+QPointF BackEnd::getInitialShipCoo (QList <BackEnd::boardField> player, int boardSizeX, int boardSizeY, int shipSize, QList<int>shipsNumber) {
+    int kindsOfShips = calculateNumberOfKindOfShips(shipsNumber);
+
+    int gapSize = ( boardSizeX - 2 ) / kindsOfShips;                // gaps beetwen rows of ships of one kind ( measured in array rows)
+    int arrayRow = 1 + (shipSize - 1) + (gapSize * (shipSize -1));
+    int arrayIndex = ( player.length()/boardSizeX ) * arrayRow;
+
+    QPointF initialShipCoo = player[arrayIndex].boardCoo;
+
+
+    return initialShipCoo;
+}
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 double BackEnd::calculateBoardXDim (double battleAreaWidth) {
     BackEnd backend;
