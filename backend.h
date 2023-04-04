@@ -51,7 +51,7 @@ public:
 
     Q_INVOKABLE int calculateNumberOfKindOfShips(QList<int>shipsNumber);
 
-    Q_INVOKABLE QPointF getInitialShipCoo (QList <BackEnd::boardField> player, int boardSizeX, int boardSizeY, int shipSize, QList<int>shipsNumber);
+    Q_INVOKABLE QPointF getInitialShipCoo (QList <BackEnd::boardField> player, int boardSizeX, int boardSizeY, int shipSize, QList<int>shipsNumber, int index);
 
     bool gameOnRead()const;
     bool gameTypeRead()const;

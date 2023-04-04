@@ -68,6 +68,8 @@ ApplicationWindow {
                 id: ships2list
                 Component.onCompleted: {
                     for (let a = 0; a < back.getArrayIndex(back.shipsNumber,0); a++ ) {
+                        let shipCoo = back.getInitialShipCoo(back.playerOne,back.boardSizeX,back.boardSizeY,2,back.shipsNumber,a);
+                        console.log("shipCoo from function: ",shipCoo);
                         let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 4 * a )  *  back.calculateBoardXDim(battleArea.width) )
                         let shipY = back.calculateBoardYDim(battleArea.height) * 2
                         ships2list.append({shipX,shipY})
