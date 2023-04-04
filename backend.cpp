@@ -133,7 +133,7 @@ int BackEnd::calculateNumberOfKindOfShips(QList<int>shipsNumber) {
     return numberOfKindOfShips;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-QPointF BackEnd::getInitialShipCoo (QList <BackEnd::boardField> player, int boardSizeX, int boardSizeY, int shipSize, QList<int>shipsNumber) {
+QPointF BackEnd::getInitialShipCoo (QList <BackEnd::boardField> player, int boardSizeX, int boardSizeY, int shipSize, QList<int>shipsNumber, int index) {
     int kindsOfShips = calculateNumberOfKindOfShips(shipsNumber);
 
     int gapSize = ( boardSizeX - 2 ) / kindsOfShips;                // gaps beetwen rows of ships of one kind ( measured in array rows)
@@ -174,8 +174,8 @@ void BackEnd::showVariables(QList<BackEnd::boardField>player) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 void BackEnd::shipsNumberModify (QList<int>shipsNumber,int index, int newValue) {
     this -> shipsNumber[index] = newValue;                                          //  array index:
-                                                                                    //  0 -2 destroyer
-    emit shipsNumberChanged(shipsNumber);
+                                                                                    //  0 - 2 destroyer, 1 - 3 cruiser, 2 - 4 battleship,
+    emit shipsNumberChanged(shipsNumber);                                           //  3 - 5 carrier,   4 - 6 clipper,
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
