@@ -125,7 +125,7 @@ void BackEnd::playerTwoWrite(QList<BackEnd::boardField>playerTwo) {
     emit playerTwoChanged(playerTwo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-int BackEnd::calculateNumberOfKindOfShips(QList<int>shipsNumber) {
+int BackEnd::calculateNumberOfKindOfShips() {
     int numberOfKindOfShips = 0;
     for(int i = 0; i < shipsNumber.length(); i++) {
         if(shipsNumber[i] > 0) numberOfKindOfShips++;
@@ -133,25 +133,30 @@ int BackEnd::calculateNumberOfKindOfShips(QList<int>shipsNumber) {
     return numberOfKindOfShips;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-QPointF BackEnd::getInitialShipCoo (QList <BackEnd::boardField> player, int boardSizeX, int boardSizeY, int shipSize, QList<int>shipsNumber, int index) {
-    int kindsOfShips = calculateNumberOfKindOfShips(shipsNumber);
+QPointF BackEnd::getInitialShipCoo (int shipSize, int index) {
 
-    int gapSize = ( boardSizeX - 2 ) / kindsOfShips;                // gaps beetwen rows of ships of one kind ( measured in array rows)
+    int kindsOfShips = calculateNumberOfKindOfShips();
+    int gapSize = ( boardSizeY - 2 - kindsOfShips) / kindsOfShips;                // gaps beetwen rows of ships of one kind ( measured in array rows)
     int arrayRow = 1 + (shipSize - 1) + (gapSize * (shipSize -1));
-    int arrayIndex = ( player.length()/boardSizeX ) * arrayRow;
+    int arrayIndex = ( ( playerOne.length()/boardSizeX ) * arrayRow ) + (index * ( shipSize + 1) ) + shipSize;
 
-    QPointF initialShipCoo = player[arrayIndex].boardCoo;
+    qInfo() << "Inside getInitialCoo function: ";
+    qInfo() << "gapSize: " << gapSize;
+    qInfo() << "arrayRow: " << arrayRow;
+    qInfo() << "arrayIndex: " << arrayIndex;
+    qInfo() << "playerOne[x]: " << playerOne[20].boardCoo;
 
+    QPointF initialShipCoo = playerOne[arrayIndex].boardCoo;
 
     return initialShipCoo;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-double BackEnd::calculateBoardXDim (double battleAreaWidth) {
+double BackEnd::calculateBoardXDim (qreal battleAreaWidth) {
     BackEnd backend;
     return battleAreaWidth/backend.boardSizeX;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-double BackEnd::calculateBoardYDim (double battleAreaHeight) {
+double BackEnd::calculateBoardYDim (qreal battleAreaHeight) {
     BackEnd backend;
     return battleAreaHeight/backend.boardSizeY;
 }
@@ -172,7 +177,7 @@ void BackEnd::showVariables(QList<BackEnd::boardField>player) {
     }
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-void BackEnd::shipsNumberModify (QList<int>shipsNumber,int index, int newValue) {
+void BackEnd::shipsNumberModify (int index, int newValue) {
     this -> shipsNumber[index] = newValue;                                          //  array index:
                                                                                     //  0 - 2 destroyer, 1 - 3 cruiser, 2 - 4 battleship,
     emit shipsNumberChanged(shipsNumber);                                           //  3 - 5 carrier,   4 - 6 clipper,

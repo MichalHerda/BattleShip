@@ -44,14 +44,14 @@ public:
     QList <boardField> playerOne = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
     QList <boardField> playerTwo = QList <boardField>(boardSizeX * boardSizeY, {QPointF(0,0), 0, 0});
 
-    Q_INVOKABLE double calculateBoardXDim (double battleAreaWidth);
-    Q_INVOKABLE double calculateBoardYDim (double battleAreaHeight);
+    Q_INVOKABLE double calculateBoardXDim (qreal battleAreaWidth);
+    Q_INVOKABLE double calculateBoardYDim (qreal battleAreaHeight);
 
-    Q_INVOKABLE void shipsNumberModify (QList<int>shipsNumber,int index, int newValue);
+    Q_INVOKABLE void shipsNumberModify (int index, int newValue);
 
-    Q_INVOKABLE int calculateNumberOfKindOfShips(QList<int>shipsNumber);
+    Q_INVOKABLE int calculateNumberOfKindOfShips();
 
-    Q_INVOKABLE QPointF getInitialShipCoo (QList <BackEnd::boardField> player, int boardSizeX, int boardSizeY, int shipSize, QList<int>shipsNumber, int index);
+    Q_INVOKABLE QPointF getInitialShipCoo (int shipSize, int index);
 
     bool gameOnRead()const;
     bool gameTypeRead()const;

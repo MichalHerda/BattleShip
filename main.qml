@@ -19,7 +19,7 @@ ApplicationWindow {
         id: back
         onGameOnChanged: (gameOn) => {
 
-        }
+        }       
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -68,10 +68,14 @@ ApplicationWindow {
                 id: ships2list
                 Component.onCompleted: {
                     for (let a = 0; a < back.getArrayIndex(back.shipsNumber,0); a++ ) {
-                        let shipCoo = back.getInitialShipCoo(back.playerOne,back.boardSizeX,back.boardSizeY,2,back.shipsNumber,a);
-                        console.log("shipCoo from function: ",shipCoo);
-                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 4 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        let shipY = back.calculateBoardYDim(battleArea.height) * 2
+                        let shipCoo = back.getInitialShipCoo(2, a);
+                        console.log("shipCoo2 from function: ",shipCoo);
+                        let shipX = shipCoo.x;
+                        let shipY = shipCoo.y;
+                        console.log("ship2 X from function: ",shipX);
+                        console.log("ship2 Y from function: ",shipY);
+                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 4 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        //let shipY = back.calculateBoardYDim(battleArea.height) * 2
                         ships2list.append({shipX,shipY})
                     }
                 }
@@ -92,8 +96,14 @@ ApplicationWindow {
                 id: ships3list
                 Component.onCompleted: {
                     for (let a = 0; a < back.getArrayIndex(back.shipsNumber,1); a++ ) {
-                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 6 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        let shipY = back.calculateBoardYDim(battleArea.height) * 6
+                        let shipCoo = back.getInitialShipCoo(3, a);
+                        console.log("shipCoo3 from function: ",shipCoo);
+                        let shipX = shipCoo.x;
+                        let shipY = shipCoo.y;
+                        console.log("ship3 X from function: ",shipX);
+                        console.log("ship3 Y from function: ",shipY);
+                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 6 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        //let shipY = back.calculateBoardYDim(battleArea.height) * 6
                         ships3list.append({shipX,shipY})
                     }
                 }
@@ -114,8 +124,14 @@ ApplicationWindow {
                 id: ships4list
                 Component.onCompleted: {
                     for (let a = 0; a < back.getArrayIndex(back.shipsNumber,2); a++ ) {
-                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        let shipY = back.calculateBoardYDim(battleArea.height) * 10
+                        let shipCoo = back.getInitialShipCoo(4, a);
+                        console.log("ship4Coo from function: ",shipCoo);
+                        let shipX = shipCoo.x;
+                        let shipY = shipCoo.y;
+                        console.log("ship4 X from function: ",shipX);
+                        console.log("ship4 Y from function: ",shipY);
+                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        //let shipY = back.calculateBoardYDim(battleArea.height) * 10
                         ships4list.append({shipX,shipY})
                     }
                 }
@@ -136,8 +152,14 @@ ApplicationWindow {
                 id: ships5list
                 Component.onCompleted: {
                     for (let a = 0; a < back.getArrayIndex(back.shipsNumber,3); a++ ) {
-                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        let shipY = back.calculateBoardYDim(battleArea.height) * 14
+                        let shipCoo = back.getInitialShipCoo(5, a);
+                        console.log("ship5Coo from function: ",shipCoo);
+                        let shipX = shipCoo.x;
+                        let shipY = shipCoo.y;
+                        console.log("ship5 X from function: ",shipX);
+                        console.log("ship5 Y from function: ",shipY);
+                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        //let shipY = back.calculateBoardYDim(battleArea.height) * 14
                         ships5list.append({shipX,shipY})
                     }
                 }
@@ -158,8 +180,14 @@ ApplicationWindow {
                 id: ships6list
                 Component.onCompleted: {
                     for (let a = 0; a < back.getArrayIndex(back.shipsNumber,4); a++ ) {
-                        let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        let shipY = back.calculateBoardYDim(battleArea.height) * 18
+                        let shipCoo = back.getInitialShipCoo(6, a);
+                        console.log("ship6Coo from function: ",shipCoo);
+                        let shipX = shipCoo.x;
+                        let shipY = shipCoo.y;
+                        console.log("ship6 X from function: ",shipX);
+                        console.log("ship6 Y from function: ",shipY);
+                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
+                        //let shipY = back.calculateBoardYDim(battleArea.height) * 18
                         ships6list.append({shipX,shipY})
                     }
                 }
@@ -177,6 +205,11 @@ ApplicationWindow {
             }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
         } // battleArea brace
+        Component.onCompleted: {
+            back.setCoo(battleArea.width,battleArea.height);
+            back.playerOneWrite(back.playerOne);
+            back.playerTwoWrite(back.playerTwo);
+        }
     } //battleAreaFrame brace
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -446,10 +479,12 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        let intValue = parseInt(currentText)
-                                        back.boardSizeYWrite(intValue)
-                                        back.boardSizeYChanged(intValue)
-                                        console.log("boardSizeY = ",back.boardSizeY)                                        
+                                        let intValue = parseInt(currentText);
+                                        back.boardSizeYWrite(intValue);
+                                        back.boardSizeYChanged(intValue);
+                                        back.playerOneWrite(back.playerOne);
+                                        back.playerTwoWrite(back.playerTwo);
+                                        console.log("boardSizeY = ",back.boardSizeY);
                                     }
                                 }                               
                             }
@@ -477,10 +512,12 @@ ApplicationWindow {
                                         }
                                     }
                                     onCurrentValueChanged: {
-                                        let intValue = parseInt(currentText)
-                                        back.boardSizeXWrite(intValue)
-                                        back.boardSizeXChanged(intValue)
-                                        console.log("boardSizeX = ",back.boardSizeX)
+                                        let intValue = parseInt(currentText);
+                                        back.boardSizeXWrite(intValue);
+                                        back.boardSizeXChanged(intValue);
+                                        back.playerOneWrite(back.playerOne);
+                                        back.playerTwoWrite(back.playerTwo);
+                                        console.log("boardSizeX = ",back.boardSizeX);
                                     }
                                 }                             
                             }
@@ -544,9 +581,9 @@ ApplicationWindow {
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText)                                       
-                                        back.shipsNumberModify(back.shipsNumber,0,intValue);
+                                        back.shipsNumberModify(0,intValue);
                                         console.log("ships 2 number = ",back.shipsNumber[0]);
-                                        console.log("searching item: ", placementPhaseMenuRep.itemAt(0).children[0].children[1]);// = back.ships2no.toString()
+                                        //console.log("searching item: ", placementPhaseMenuRep.itemAt(0).children[0].children[1]);// = back.ships2no.toString()
                                         placementPhaseMenuRep.itemAt(0).children[0].children[1].text = back.shipsNumber[0];
                                     }
                                 }
@@ -572,7 +609,7 @@ ApplicationWindow {
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText);
-                                        back.shipsNumberModify(back.shipsNumber,1,intValue);
+                                        back.shipsNumberModify(1,intValue);
                                         console.log("ships 3 number = ",back.shipsNumber[1]);
                                         placementPhaseMenuRep.itemAt(1).children[0].children[1].text = back.shipsNumber[1];
                                     }
@@ -599,7 +636,7 @@ ApplicationWindow {
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText);                                       
-                                        back.shipsNumberModify(back.shipsNumber,2,intValue);
+                                        back.shipsNumberModify(2,intValue);
                                         console.log("ships 4 number = ",back.shipsNumber[2]);
                                         placementPhaseMenuRep.itemAt(2).children[0].children[1].text = back.shipsNumber[2];
                                     }
@@ -630,7 +667,7 @@ ApplicationWindow {
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText);                                       
-                                        back.shipsNumberModify(back.shipsNumber,3,intValue);
+                                        back.shipsNumberModify(3,intValue);
                                         console.log("ships 5 number = ",back.shipsNumber[3]);
                                         placementPhaseMenuRep.itemAt(3).children[0].children[1].text = back.shipsNumber[3];
                                     }
@@ -657,7 +694,7 @@ ApplicationWindow {
                                     }
                                     onCurrentValueChanged: {
                                         var intValue = parseInt(currentText);                                       
-                                        back.shipsNumberModify(back.shipsNumber,4,intValue);
+                                        back.shipsNumberModify(4,intValue);
                                         console.log("ships 6 number = ",back.shipsNumber[4]);
                                         placementPhaseMenuRep.itemAt(4).children[0].children[1].text = back.shipsNumber[4];
                                     }
@@ -735,9 +772,10 @@ ApplicationWindow {
 
                 console.log("boardX: ", back.boardSizeX);
                 console.log("boardY: ", back.boardSizeY);
-                console.log("playerOne: ", back.playerOne[1]);
-                console.log("array index: ", back.getArrayIndex(back.shipsNumber,0) );
-                console.log("number of kinds of ship: ", back.calculateNumberOfKindOfShips(back.shipsNumber));
+                console.log("playerOne: ", back.playerOne);
+                console.log("array of ships number index: ", back.getArrayIndex(back.shipsNumber,0) );
+                console.log("number of kinds of ship: ", back.calculateNumberOfKindOfShips());
+                console.log("QPoint check: ", back.getInitialShipCoo (2, 1))
             }
         }
 
