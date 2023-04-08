@@ -136,15 +136,15 @@ int BackEnd::calculateNumberOfKindOfShips() {
 QPointF BackEnd::getInitialShipCoo (int shipSize, int index) {
 
     int kindsOfShips = calculateNumberOfKindOfShips();
-    int gapSize = ( boardSizeY - 2 - kindsOfShips) / kindsOfShips;                // gaps beetwen rows of ships of one kind ( measured in array rows)
-    int arrayRow = 1 + (shipSize - 1) + (gapSize * (shipSize -1));
-    int arrayIndex = ( ( playerOne.length()/boardSizeX ) * arrayRow ) + (index * ( shipSize + 1) ) + shipSize;
+    int gapSize = ( boardSizeY - kindsOfShips) / kindsOfShips;                // gaps beetwen rows of ships of one kind ( measured in array rows)
+    int arrayRow = (shipSize - 1) + (gapSize * (shipSize -1));
+    int arrayIndex = ( ( playerOne.length()/boardSizeY ) * arrayRow ) + (index * ( shipSize + 1) ) + shipSize;
 
     qInfo() << "Inside getInitialCoo function: ";
     qInfo() << "gapSize: " << gapSize;
     qInfo() << "arrayRow: " << arrayRow;
     qInfo() << "arrayIndex: " << arrayIndex;
-    qInfo() << "playerOne[x]: " << playerOne[20].boardCoo;
+    qInfo() << "playerOne[idx]: " << playerOne[arrayIndex].boardCoo;
 
     QPointF initialShipCoo = playerOne[arrayIndex].boardCoo;
 

@@ -14,12 +14,16 @@ ApplicationWindow {
     property color settingsMenuColor: "darksalmon"
     property color settingsMenuBorderColor: "brown"
     property color shipColor: "sienna"
+    property color battleAreaFrameColor: "saddlebrown"
+    property color battleAreaColor: "dodgerblue"
+    property color battleAreaBorderColor: "seagreen"
+    property color battleAreaRectangleColor: "darkblue"
 
     BackEnd {
         id: back
-        onGameOnChanged: (gameOn) => {
-
-        }       
+        //onGameOnChanged: (gameOn) => {
+        //
+        //}
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -31,15 +35,15 @@ ApplicationWindow {
         width: mainW.width
         height: mainW.height/1.25
         anchors.top: parent.top
-        color: "saddlebrown"
+        color: battleAreaFrameColor
 //----------------------------------------------------------------------------------------------------------------------------------------------------
         Rectangle {
             id: battleArea
             width: battleAreaFrame.width/1.05
             height: battleAreaFrame.height/1.1
             anchors.centerIn: parent
-            color: "dodgerblue"
-            border { color: "seagreen"; width: battleArea.width/50 }
+            color: battleAreaColor
+            border { color: battleAreaBorderColor; width: battleArea.width/50 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
             Grid {
                 id: battleAreaGrid
@@ -49,14 +53,20 @@ ApplicationWindow {
 
                 Repeater {
                     id: battleAreaRep
-                    model: back.boardSizeY * back.boardSizeX
+                    model: (back.boardSizeY * back.boardSizeX)                                              // number of all gameBoard coordinates
                     delegate: Rectangle {
-                        id: battleAreaRectangle
+                        id: battleAreaRectangle;
                         width: battleAreaGrid.width/back.boardSizeX
                         height: battleAreaGrid.height/back.boardSizeY
                         opacity: 0.5
-                        border {color: "darkblue" ; width: battleArea.width/400 }                       
+                        border {color: battleAreaRectangleColor; width: battleArea.width/400 }
                     }
+                }
+
+                Component.onCompleted: {
+                    back.setCoo(battleArea.width,battleArea.height);
+                    back.playerOneWrite(back.playerOne);
+                    back.playerTwoWrite(back.playerTwo);
                 }
             }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -64,153 +74,46 @@ ApplicationWindow {
 //--------------------------------------------------------------------SHIPS---------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-            ListModel {
-                id: ships2list
-                Component.onCompleted: {
-                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,0); a++ ) {
-                        let shipCoo = back.getInitialShipCoo(2, a);
-                        console.log("shipCoo2 from function: ",shipCoo);
-                        let shipX = shipCoo.x;
-                        let shipY = shipCoo.y;
-                        console.log("ship2 X from function: ",shipX);
-                        console.log("ship2 Y from function: ",shipY);
-                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 4 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        //let shipY = back.calculateBoardYDim(battleArea.height) * 2
-                        ships2list.append({shipX,shipY})
+            Repeater {
+                id: shipsRepeater
+                model: 5                                                                                    // 5 is number of possible kinds of ships
+
+                delegate: Repeater {
+                    id: shipsRep
+                    property int shipsRepIdx: index
+
+                    model: ListModel {
+                        id: shipsList
+
+                        Component.onCompleted: {
+                            for(let i = 0; i < back.getArrayIndex(back.shipsNumber, shipsRepIdx); i++) {
+                                console.log("ships Repeater idx: ", shipsRepIdx)
+                                console.log("index : ", i)
+                                let shipCoo = back.getInitialShipCoo (shipsRepIdx + 2, i);
+                                let shipX = shipCoo.x;
+                                let shipY = shipCoo.y;
+                                console.log("ship X from function: ",shipX);
+                                console.log("ship Y from function: ",shipY);
+                                shipsList.append({shipX,shipY})
+                            }
+                        }
+
+                    }
+                    delegate: Rectangle {
+                        id: ship
+                        width: ( back.calculateBoardXDim(battleArea.width) ) * shipsRepIdx
+                        height: back.calculateBoardYDim(battleArea.height)
+                        x: shipX
+                        y: shipY
+                        color: shipColor
+                        visible: false
                     }
                 }
             }
-            Repeater {
-                id: ships2rep
-                model: ships2list
-                delegate: Rectangle {
-                    width: ( back.calculateBoardXDim(battleArea.width) ) * 2
-                    height: back.calculateBoardYDim(battleArea.height)
-                    x: shipX
-                    y: shipY
-                    color: shipColor
-                }
-            }
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-            ListModel {
-                id: ships3list
-                Component.onCompleted: {
-                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,1); a++ ) {
-                        let shipCoo = back.getInitialShipCoo(3, a);
-                        console.log("shipCoo3 from function: ",shipCoo);
-                        let shipX = shipCoo.x;
-                        let shipY = shipCoo.y;
-                        console.log("ship3 X from function: ",shipX);
-                        console.log("ship3 Y from function: ",shipY);
-                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 6 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        //let shipY = back.calculateBoardYDim(battleArea.height) * 6
-                        ships3list.append({shipX,shipY})
-                    }
-                }
-            }
-            Repeater {
-                id: ships3rep
-                model: ships3list
-                delegate: Rectangle {
-                    width: ( back.calculateBoardXDim(battleArea.width) ) * 3
-                    height: back.calculateBoardYDim(battleArea.height)
-                    x: shipX
-                    y: shipY
-                    color: shipColor
-                }
-            }
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-            ListModel {
-                id: ships4list
-                Component.onCompleted: {
-                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,2); a++ ) {
-                        let shipCoo = back.getInitialShipCoo(4, a);
-                        console.log("ship4Coo from function: ",shipCoo);
-                        let shipX = shipCoo.x;
-                        let shipY = shipCoo.y;
-                        console.log("ship4 X from function: ",shipX);
-                        console.log("ship4 Y from function: ",shipY);
-                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        //let shipY = back.calculateBoardYDim(battleArea.height) * 10
-                        ships4list.append({shipX,shipY})
-                    }
-                }
-            }
-            Repeater {
-                id: ships4rep
-                model: ships4list
-                delegate: Rectangle {
-                    width: ( back.calculateBoardXDim(battleArea.width) ) * 4
-                    height: back.calculateBoardYDim(battleArea.height)
-                    x: shipX
-                    y: shipY
-                    color: shipColor
-                }
-            }
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-            ListModel {
-                id: ships5list
-                Component.onCompleted: {
-                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,3); a++ ) {
-                        let shipCoo = back.getInitialShipCoo(5, a);
-                        console.log("ship5Coo from function: ",shipCoo);
-                        let shipX = shipCoo.x;
-                        let shipY = shipCoo.y;
-                        console.log("ship5 X from function: ",shipX);
-                        console.log("ship5 Y from function: ",shipY);
-                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        //let shipY = back.calculateBoardYDim(battleArea.height) * 14
-                        ships5list.append({shipX,shipY})
-                    }
-                }
-            }
-            Repeater {
-                id: ships5rep
-                model: ships5list
-                delegate: Rectangle {
-                    width: ( back.calculateBoardXDim(battleArea.width) ) * 5
-                    height: back.calculateBoardYDim(battleArea.height)
-                    x: shipX
-                    y: shipY
-                    color: shipColor
-                }
-            }
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-            ListModel {
-                id: ships6list
-                Component.onCompleted: {
-                    for (let a = 0; a < back.getArrayIndex(back.shipsNumber,4); a++ ) {
-                        let shipCoo = back.getInitialShipCoo(6, a);
-                        console.log("ship6Coo from function: ",shipCoo);
-                        let shipX = shipCoo.x;
-                        let shipY = shipCoo.y;
-                        console.log("ship6 X from function: ",shipX);
-                        console.log("ship6 Y from function: ",shipY);
-                        //let shipX = back.calculateBoardXDim(battleArea.width) + ( ( 8 * a )  *  back.calculateBoardXDim(battleArea.width) )
-                        //let shipY = back.calculateBoardYDim(battleArea.height) * 18
-                        ships6list.append({shipX,shipY})
-                    }
-                }
-            }
-            Repeater {
-                id: ships6rep
-                model: ships6list
-                delegate: Rectangle {
-                    width: ( back.calculateBoardXDim(battleArea.width) ) * 6
-                    height: back.calculateBoardYDim(battleArea.height)
-                    x: shipX
-                    y: shipY
-                    color: shipColor
-                }
-            }
-//----------------------------------------------------------------------------------------------------------------------------------------------------
-        } // battleArea brace
-        Component.onCompleted: {
-            back.setCoo(battleArea.width,battleArea.height);
-            back.playerOneWrite(back.playerOne);
-            back.playerTwoWrite(back.playerTwo);
-        }
-    } //battleAreaFrame brace
+        } // battleArea brace       
+    } //battleAreaFrame brace   
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------PLACEMENT PHASE MENU------------------------------------------------------------------
@@ -250,15 +153,13 @@ ApplicationWindow {
                 id: placementPhaseMenuRep
                 width: placementPhaseMenu.width/1.1
                 height: placementPhaseMenu.height
-                model: ListModel {
-                    property bool completed: false
+                model: ListModel {                   
                     Component.onCompleted: {
                         append({name: "2 DESTROYER",  number: back.shipsNumber[0]})
                         append({name: "3 CRUISER",    number: back.shipsNumber[1]})
                         append({name: "4 BATTLESHIP", number: back.shipsNumber[2]})
                         append({name: "5 CARRIER",    number: back.shipsNumber[3]})
-                        append({name: "6 CLIPPER",    number: back.shipsNumber[4]})
-                        completed = true
+                        append({name: "6 CLIPPER",    number: back.shipsNumber[4]})                        
                     }
                 }
                 delegate: Rectangle {
@@ -485,6 +386,15 @@ ApplicationWindow {
                                         back.playerOneWrite(back.playerOne);
                                         back.playerTwoWrite(back.playerTwo);
                                         console.log("boardSizeY = ",back.boardSizeY);
+
+                                        //change ships coordinates
+                                        for (let i = 0; i < 5; i++) {
+                                            for (let a = 0; a < back.getArrayIndex(back.shipsNumber,i); a++ ) {
+                                                let shipCoo = back.getInitialShipCoo((i+2), a);
+                                                let shipX = shipCoo.x;
+                                                let shipY = shipCoo.y;
+                                            }
+                                        }
                                     }
                                 }                               
                             }
@@ -762,7 +672,7 @@ ApplicationWindow {
         }
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-
+/*
       Timer {
             id: testTimer
             interval: 500
@@ -778,7 +688,7 @@ ApplicationWindow {
                 console.log("QPoint check: ", back.getInitialShipCoo (2, 1))
             }
         }
-
+*/
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
