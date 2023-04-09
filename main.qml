@@ -21,9 +21,6 @@ ApplicationWindow {
 
     BackEnd {
         id: back
-        //onGameOnChanged: (gameOn) => {
-        //
-        //}
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -61,13 +58,7 @@ ApplicationWindow {
                         opacity: 0.5
                         border {color: battleAreaRectangleColor; width: battleArea.width/400 }
                     }
-                }
-
-                Component.onCompleted: {
-                    back.setCoo(battleArea.width,battleArea.height);
-                    back.playerOneWrite(back.playerOne);
-                    back.playerTwoWrite(back.playerTwo);
-                }
+                }              
             }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,6 +72,12 @@ ApplicationWindow {
                 delegate: Repeater {
                     id: shipsRep
                     property int shipsRepIdx: index
+
+                    Component.onCompleted: {
+                        back.setCoo(battleArea.width,battleArea.height);
+                        back.playerOneWrite(back.playerOne);
+                        back.playerTwoWrite(back.playerTwo);
+                    }
 
                     model: ListModel {
                         id: shipsList
@@ -97,16 +94,16 @@ ApplicationWindow {
                                 shipsList.append({shipX,shipY})
                             }
                         }
-
                     }
+
                     delegate: Rectangle {
                         id: ship
-                        width: ( back.calculateBoardXDim(battleArea.width) ) * shipsRepIdx
+                        width: ( back.calculateBoardXDim(battleArea.width) ) * ( shipsRepIdx + 2 )
                         height: back.calculateBoardYDim(battleArea.height)
                         x: shipX
                         y: shipY
                         color: shipColor
-                        visible: false
+                        visible: true
                     }
                 }
             }
