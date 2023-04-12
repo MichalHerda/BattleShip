@@ -51,6 +51,7 @@ public:
 
     Q_INVOKABLE int calculateNumberOfKindOfShips();
 
+    Q_INVOKABLE int getTotalShipsNumber();
     Q_INVOKABLE QPointF getInitialShipCoo (int shipSize, int index);
 
     bool gameOnRead()const;

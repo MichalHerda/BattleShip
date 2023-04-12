@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Window 2.15
 import BattleShip 1.0
+import "jsBackEnd.js" as Js
 
 ApplicationWindow {
     id: mainW
@@ -67,8 +68,15 @@ ApplicationWindow {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
             Repeater {
                 id: shipsRepeater
-                model: 5                                                                                    // 5 is number of possible kinds of ships
-
+                model: ListModel {
+                    id: kindsOfShipsList
+                    Component.onCompleted: {
+                        for(let i = 0; i < 5; i++) {                                                        // 5 is number of possible kinds of ships
+                            kindsOfShipsList.append({"repeat": shipsList});                                                    // repeater of empty elements for it
+                            console.log("kindsOfShipRep ", i, " : ", shipsRepeater.itemAt(i));              // then is append as shipsList
+                        }
+                    }
+                }
                 delegate: Repeater {
                     id: shipsRep
                     property int shipsRepIdx: index
@@ -83,16 +91,7 @@ ApplicationWindow {
                         id: shipsList
 
                         Component.onCompleted: {
-                            for(let i = 0; i < back.getArrayIndex(back.shipsNumber, shipsRepIdx); i++) {
-                                console.log("ships Repeater idx: ", shipsRepIdx)
-                                console.log("index : ", i)
-                                let shipCoo = back.getInitialShipCoo (shipsRepIdx + 2, i);
-                                let shipX = shipCoo.x;
-                                let shipY = shipCoo.y;
-                                console.log("ship X from function: ",shipX);
-                                console.log("ship Y from function: ",shipY);
-                                shipsList.append({shipX,shipY})
-                            }
+                            Js.setInitialShipState(shipsRepIdx, shipsList);                           
                         }
                     }
 
@@ -185,7 +184,7 @@ ApplicationWindow {
                                 border {color: button1.pressed ? "red" : "cadetblue"; width: button1.width/20}
                             }
                             onClicked:  {
-
+                                back.getTotalShipsNumber();
 
                             }
                         }
@@ -692,7 +691,18 @@ ApplicationWindow {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-
+/*
+for(let i = 0; i < back.getArrayIndex(back.shipsNumber, shipsRepIdx); i++) {
+    console.log("ships Repeater idx: ", shipsRepIdx)
+    console.log("index : ", i)
+    let shipCoo = back.getInitialShipCoo (shipsRepIdx + 2, i);
+    let shipX = shipCoo.x;
+    let shipY = shipCoo.y;
+    console.log("ship X from function: ",shipX);
+    console.log("ship Y from function: ",shipY);
+    shipsList.append({shipX,shipY})
+}
+*/
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------

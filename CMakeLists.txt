@@ -19,6 +19,7 @@ qt_add_qml_module(appBattleShip
     QML_FILES main.qml 
         backend.h
         backend.cpp
+        jsBackEnd.js
 )
 
 set_target_properties(appBattleShip PROPERTIES

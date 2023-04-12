@@ -66,9 +66,9 @@ void BackEnd::playerOneWrite(QList<BackEnd::boardField>playerOne) {
 
     // array resizing in BoardSizeXWrite and boardSizeYWrite functions
 
-    qInfo() << "PLAYER1 ARRAY SIZE ____________________ " << playerOne.size();
-    qInfo() << "BOARD SIZE X___________________ " << boardSizeX;
-    qInfo() << "BOARD SIZE Y___________________ " << boardSizeY;
+    //qInfo() << "PLAYER1 ARRAY SIZE ____________________ " << playerOne.size();
+    //qInfo() << "BOARD SIZE X___________________ " << boardSizeX;
+    //qInfo() << "BOARD SIZE Y___________________ " << boardSizeY;
 
     int arrayCounter = 0;
     double x = 0;
@@ -98,10 +98,10 @@ void BackEnd::playerTwoWrite(QList<BackEnd::boardField>playerTwo) {
 
     // array resizing in BoardSizeXWrite and boardSizeYWrite functions
 
-    qInfo() << "PLAYER2 ARRAY SIZE ____________________ " << playerTwo.size();                    // I also don't like that there are twin functions
-    qInfo() << "BOARD SIZE X___________________ " << boardSizeX;                                  // for playerOne & playerTwo
-    qInfo() << "BOARD SIZE Y___________________ " << boardSizeY;                                  // unfortunately I still don't know how to solve
-                                                                                                  // this in Qt Q_PROPERTY system
+    //qInfo() << "PLAYER2 ARRAY SIZE ____________________ " << playerTwo.size();                    // I also don't like that there are twin functions
+    //qInfo() << "BOARD SIZE X___________________ " << boardSizeX;                                  // for playerOne & playerTwo
+    //qInfo() << "BOARD SIZE Y___________________ " << boardSizeY;                                  // unfortunately I still don't know how to solve
+                                                                                                    // this in Qt Q_PROPERTY system
     int arrayCounter = 0;
     double x = 0;
     double y = 0;
@@ -133,6 +133,17 @@ int BackEnd::calculateNumberOfKindOfShips() {
     return numberOfKindOfShips;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+int BackEnd::getTotalShipsNumber() {
+    int totalShipsNumber = 0;
+    int arraySize = shipsNumber.size();
+    qInfo() << "Ships Size: " << arraySize;
+    for(int i = 0; i < arraySize; i++) {
+        totalShipsNumber += shipsNumber[i];
+    }
+    qInfo() << "Total Ships Number: " << totalShipsNumber;
+    return totalShipsNumber;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
 QPointF BackEnd::getInitialShipCoo (int shipSize, int index) {
 
     int kindsOfShips = calculateNumberOfKindOfShips();
@@ -140,11 +151,11 @@ QPointF BackEnd::getInitialShipCoo (int shipSize, int index) {
     int arrayRow = (shipSize - 1) + (gapSize * (shipSize -1));
     int arrayIndex = ( ( playerOne.length()/boardSizeY ) * arrayRow ) + (index * ( shipSize + 1) ) + shipSize;
 
-    qInfo() << "Inside getInitialCoo function: ";
-    qInfo() << "gapSize: " << gapSize;
-    qInfo() << "arrayRow: " << arrayRow;
-    qInfo() << "arrayIndex: " << arrayIndex;
-    qInfo() << "playerOne[idx]: " << playerOne[arrayIndex].boardCoo;
+    //qInfo() << "Inside getInitialCoo function: ";
+    //qInfo() << "gapSize: " << gapSize;
+    //qInfo() << "arrayRow: " << arrayRow;
+    //qInfo() << "arrayIndex: " << arrayIndex;
+    //qInfo() << "playerOne[idx]: " << playerOne[arrayIndex].boardCoo;
 
     QPointF initialShipCoo = playerOne[arrayIndex].boardCoo;
 
