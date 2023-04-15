@@ -15,7 +15,7 @@ ApplicationWindow {
     property color settingsMenuColor: "darksalmon"
     property color settingsMenuBorderColor: "brown"
     property color shipColor: "sienna"
-    property color battleAreaFrameColor: "saddlebrown"
+    property color battleAreaFrameColor: "peru"
     property color battleAreaColor: "dodgerblue"
     property color battleAreaBorderColor: "seagreen"
     property color battleAreaRectangleColor: "darkblue"
@@ -41,7 +41,7 @@ ApplicationWindow {
             height: battleAreaFrame.height/1.1
             anchors.centerIn: parent
             color: battleAreaColor
-            border { color: battleAreaBorderColor; width: battleArea.width/50 }
+            border { color: battleAreaBorderColor; width: battleArea.width/40 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
             Grid {
                 id: battleAreaGrid
@@ -56,7 +56,7 @@ ApplicationWindow {
                         id: battleAreaRectangle;
                         width: battleAreaGrid.width/back.boardSizeX
                         height: battleAreaGrid.height/back.boardSizeY
-                        opacity: 0.5
+                        opacity: 0.2
                         border {color: battleAreaRectangleColor; width: battleArea.width/400 }
                     }
                 }              
@@ -68,43 +68,42 @@ ApplicationWindow {
 //----------------------------------------------------------------------------------------------------------------------------------------------------
             Repeater {
                 id: shipsRepeater
+
                 model: ListModel {
                     id: kindsOfShipsList
                     Component.onCompleted: {
-                        for(let i = 0; i < 5; i++) {                                                        // 5 is number of possible kinds of ships
-                            kindsOfShipsList.append({"repeat": shipsList});                                                    // repeater of empty elements for it
-                            console.log("kindsOfShipRep ", i, " : ", shipsRepeater.itemAt(i));              // then is append as shipsList
+
+                        for(let i = 0; i < back.getTotalShipsNumber(); i++) {
+                            let shipWidth = back.getShipWidth(i);
+                            let shipWidthDim = back.getShipWidth(i) * back.calculateBoardXDim(battleArea.width);
+                            let shipCoo = back.getInitialShipCoo(shipWidth, i);
+                            let shipX = shipCoo.x
+                            let shipY = shipCoo.y
+                            kindsOfShipsList.append({shipWidthDim, shipX, shipY});
+                            console.log("kindsOfShipRep ", i, " : ", shipsRepeater.itemAt(i));
+                            console.log("ship width of index ",i,":", shipWidth);
                         }
                     }
                 }
-                delegate: Repeater {
-                    id: shipsRep
-                    property int shipsRepIdx: index
 
-                    Component.onCompleted: {
-                        back.setCoo(battleArea.width,battleArea.height);
-                        back.playerOneWrite(back.playerOne);
-                        back.playerTwoWrite(back.playerTwo);
-                    }
-
-                    model: ListModel {
-                        id: shipsList
-
-                        Component.onCompleted: {
-                            Js.setInitialShipState(shipsRepIdx, shipsList);                           
-                        }
-                    }
 
                     delegate: Rectangle {
+
+                        Component.onCompleted: {
+                            back.setCoo(battleArea.width,battleArea.height);
+                            back.playerOneWrite(back.playerOne);
+                            back.playerTwoWrite(back.playerTwo);
+                        }
+
                         id: ship
-                        width: ( back.calculateBoardXDim(battleArea.width) ) * ( shipsRepIdx + 2 )
+                        width: shipWidthDim
                         height: back.calculateBoardYDim(battleArea.height)
                         x: shipX
                         y: shipY
                         color: shipColor
                         visible: true
                     }
-                }
+
             }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------

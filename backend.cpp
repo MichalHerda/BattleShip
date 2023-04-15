@@ -101,7 +101,7 @@ void BackEnd::playerTwoWrite(QList<BackEnd::boardField>playerTwo) {
     //qInfo() << "PLAYER2 ARRAY SIZE ____________________ " << playerTwo.size();                    // I also don't like that there are twin functions
     //qInfo() << "BOARD SIZE X___________________ " << boardSizeX;                                  // for playerOne & playerTwo
     //qInfo() << "BOARD SIZE Y___________________ " << boardSizeY;                                  // unfortunately I still don't know how to solve
-                                                                                                    // this in Qt Q_PROPERTY system
+                                                                                                    // this at Qt Q_PROPERTY system
     int arrayCounter = 0;
     double x = 0;
     double y = 0;
@@ -144,12 +144,22 @@ int BackEnd::getTotalShipsNumber() {
     return totalShipsNumber;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+int BackEnd::getShipWidth(int index) {
+    if( index <  shipsNumber[0]) return 2;
+    if((index >= shipsNumber[0]) && (index < (shipsNumber[0] + shipsNumber[1]))) return 3;
+    if((index >= (shipsNumber[0] + shipsNumber[1])) && (index < (shipsNumber[0] + shipsNumber[1] + shipsNumber[2]))) return 4;
+    if((index >= (shipsNumber[0] + shipsNumber[1] + shipsNumber[2])) && (index < (shipsNumber[0] + shipsNumber[1] + shipsNumber[2] + shipsNumber[3]))) return 5;
+    if((index >= (shipsNumber[0] + shipsNumber[1] + shipsNumber[2] + shipsNumber[3])) &&
+                 (index < (shipsNumber[0] + shipsNumber[1] + shipsNumber[2] +shipsNumber[3] + shipsNumber[4]))) return 6;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
 QPointF BackEnd::getInitialShipCoo (int shipSize, int index) {
 
+    int shipIndex = getCurrentShipKindIndex(shipSize, index);
     int kindsOfShips = calculateNumberOfKindOfShips();
-    int gapSize = ( boardSizeY - kindsOfShips) / kindsOfShips;                // gaps beetwen rows of ships of one kind ( measured in array rows)
-    int arrayRow = (shipSize - 1) + (gapSize * (shipSize -1));
-    int arrayIndex = ( ( playerOne.length()/boardSizeY ) * arrayRow ) + (index * ( shipSize + 1) ) + shipSize;
+    int gapSize = ( boardSizeY - kindsOfShips) / kindsOfShips;                          // gaps beetwen rows of ships of one kind ( measured in array rows)
+    int arrayRow = (shipSize - 1) + ( gapSize * (shipSize - 1) );
+    int arrayIndex = ( 1 + ( ( playerOne.length()/boardSizeY ) * arrayRow ) ) + (shipIndex * shipSize + 2) ;
 
     //qInfo() << "Inside getInitialCoo function: ";
     //qInfo() << "gapSize: " << gapSize;
@@ -160,6 +170,22 @@ QPointF BackEnd::getInitialShipCoo (int shipSize, int index) {
     QPointF initialShipCoo = playerOne[arrayIndex].boardCoo;
 
     return initialShipCoo;
+}
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+int BackEnd::getCurrentShipKindIndex(int shipSize,int index) {
+    int arrayIndex = shipSize - 2;
+    int currentShipKindIndex = getTotalShipsNumber();
+    int differentThanCurrentShipNo = 0;
+
+    for(int i = 0; i < shipsNumber.length(); i++) {
+        if (arrayIndex != i) {
+            currentShipKindIndex -= shipsNumber[i];                    // ????????????????????????????????????????????????????????? HERE !!!
+            differentThanCurrentShipNo += shipsNumber[i];
+        }
+    }
+    qInfo() << "differentThanCurrentShipNo "<< differentThanCurrentShipNo ;
+    qInfo() << "current Ship Index of arrayIndex "<< arrayIndex << ": " << currentShipKindIndex;
+    return currentShipKindIndex;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 double BackEnd::calculateBoardXDim (qreal battleAreaWidth) {

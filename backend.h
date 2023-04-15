@@ -35,8 +35,8 @@ public:
     bool gameType = false;                              // gameType: false - player vs player                       true - player vs computer
     bool indicateTurn = false;                          // indicateTurn: false - player 1                           true - player 2
 
-    int boardSizeX = 24;                                // gameBoard size dimension X
-    int boardSizeY = 24;                                // gameBoard size dimension Y
+    int boardSizeX = 24;                                // initial gameBoard size dimension X
+    int boardSizeY = 24;                                // initial gameBoard size dimension Y
 
     QList<int> shipsNumber = QList<int> {5,4,3,2,1};    // indexes of types of ships for both arrays: 0 = 2ship, 1 = 3ship,
                                                         // 2 = 4 ship, 3 = 5 ship, 4 = 6 ship        
@@ -52,6 +52,8 @@ public:
     Q_INVOKABLE int calculateNumberOfKindOfShips();
 
     Q_INVOKABLE int getTotalShipsNumber();
+    Q_INVOKABLE int getShipWidth(int index);
+    Q_INVOKABLE int getCurrentShipKindIndex(int shipSize,int index);
     Q_INVOKABLE QPointF getInitialShipCoo (int shipSize, int index);
 
     bool gameOnRead()const;
